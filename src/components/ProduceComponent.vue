@@ -12,28 +12,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import land from '@/assets/landing_bg.png'
-export default {
-  data() {
-    return {
-      produceItems: [
-        { id: 1, name: 'Apple', image: land },
-        { id: 2, name: 'Banana', image: land },
-        { id: 3, name: 'Orange', image: land },
-        { id: 4, name: 'Grapes', image: land },
-        { id: 1, name: 'Apple', image: land },
-        { id: 2, name: 'Banana', image: land },
-        { id: 3, name: 'Orange', image: land },
-        { id: 4, name: 'Grapes', image: land },
-        { id: 1, name: 'Apple', image: land },
-        { id: 2, name: 'Banana', image: land },
-        { id: 3, name: 'Orange', image: land },
-        { id: 4, name: 'Grapes', image: land },
-      ],
-    }
-  },
+import produceService from '@/api/produceService'
+
+const produceItems = ref([{ id: 1, name: 'fetching', image: land }])
+
+async function fetchProduce() {
+  try {
+    const data = await produceService.getAll()
+    console.log(data.data)
+    produceItems.value = data.data
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
 }
+
+onMounted(fetchProduce)
 </script>
 
 <style scoped>
