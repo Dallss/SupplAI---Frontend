@@ -33,11 +33,11 @@ interface Batch {
   added_to_inventory_on: string;
 }
 
-const batches = ref<Batch[]>([]) // Empty array to be filled from API
+const batches = ref<Batch[]>([]) 
 
 const fetchBatches = async () => {
   try {
-    console.log('Fetching batches...') // Debug log before request
+    console.log('Fetching batches...') 
     const response = await fetch('http://127.0.0.1:8000/api/inventory/get_batches/')
 
     if (!response.ok) {
@@ -45,7 +45,7 @@ const fetchBatches = async () => {
     }
 
     const data = await response.json()
-    console.log('Received data:', data) // Debug log for response data
+    console.log('Received data:', data) 
 
     batches.value = data
   } catch (error) {
@@ -53,21 +53,23 @@ const fetchBatches = async () => {
   }
 }
 
-// Fetch data when the component mounts
 onMounted(fetchBatches)
 </script>
 
 <style scoped>
+
 .inventory-container {
-  max-width: 75rem;
-  margin: 0 auto;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
   padding: 1.25rem;
+  box-sizing: border-box;
 }
 
 h1 {
   color: #3c4a3e;
   font-size: 1.75rem;
   margin-bottom: 0.3125rem;
+  font-weight: 600;
 }
 
 .subtitle {
@@ -102,6 +104,7 @@ th {
 td {
   padding: 0.75rem 0.9375rem;
   border-bottom: 0.0625rem solid #eee;
+  color: black;
 }
 
 tbody tr:hover {
