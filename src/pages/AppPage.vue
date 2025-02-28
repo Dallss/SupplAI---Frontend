@@ -1,19 +1,21 @@
 <template>
   <div class="container">
     <aside class="nav">
-      <div class="logo">suppl.ai</div>
+      <div class="logo">
+        <img src="@/assets/logo-white.svg" alt="suppl.ai logo">
+      </div>
       <nav>
         <router-link to="/app/dashboard" class="nav-link">
-          <span class="icon">🏠</span> DASHBOARD
+          <Feather type="home" /> DASHBOARD
         </router-link>
         <router-link to="/app/inventory" class="nav-link">
-          <span class="icon">📦</span> INVENTORY
+          <Feather type="box" /> INVENTORY
         </router-link>
         <router-link to="/app/produce" class="nav-link">
-          <span class="icon">📦</span> PRODUCE
+          <Feather type="box" /> PRODUCE
         </router-link>
         <router-link to="/app/employees" class="nav-link">
-          <span class="icon">👤</span> EMPLOYEES
+          <Feather type="user" /> EMPLOYEES
         </router-link>
       </nav>
     </aside>
@@ -24,7 +26,39 @@
   </div>
 </template>
 
+<script>
+import Feather from 'vue-feather';
+
+export default {
+  components: {
+    Feather,
+  },
+};
+</script>
+
+
 <style scoped>
+
+.logo{
+  width: 200px;
+  height: 150px;
+  margin-top: -50px;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo img {
+  width: 200px;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.icon {
+  color: white;
+  width: 24px;
+  height: 24px;
+}
+
 .container {
   display: flex;
   min-height: 100vh;
@@ -53,22 +87,28 @@
 nav {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .nav-link {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px;
+  gap: 15px;
+  padding: 10px 20px;
+  padding-left: 30px;
   border-radius: 8px;
   text-decoration: none;
   color: white;
   font-size: 14px;
+  font-weight: bold;
+  width: 200px;
+  /* width: fit-content; */
 }
 
 .nav-link:hover,
 .router-link-active {
   background-color: #2f3e2f;
+  border-radius: 30px;
 }
 
 /* Main Content */
