@@ -3,7 +3,7 @@
     <h1>Inventory</h1>
     <div class="header">
       <p class="subtitle">View and manage your latest batches of produce.</p>
-      <button class="add-batch-button">Add Batch</button>
+      <button class="add-batch-button" @click="showModal = true">Add Batch</button>
     </div>
     
     <div class="table-container">
@@ -24,11 +24,20 @@
         </tbody>
       </table>
     </div>
+
+    <BatchModal 
+      :show="showModal" 
+      @close="showModal = false" 
+      @add="addBatch" 
+      :batchNumber="nextBatchNumber" 
+      :produceOptions="produceOptions" 
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import BatchModal from "@/components/BatchModal.vue"
 
 interface Batch {
   batch_id: string;
@@ -36,7 +45,15 @@ interface Batch {
   added_to_inventory_on: string;
 }
 
+interface ProduceOption {
+  id: number;
+  name: string;
+}
+
 const batches = ref<Batch[]>([]) 
+const showModal = ref(false)
+const nextBatchNumber = ref(1)
+const produceOptions = ref<ProduceOption[]>([])
 
 const fetchBatches = async () => {
   try {
@@ -51,12 +68,39 @@ const fetchBatches = async () => {
     console.log('Received data:', data) 
 
     batches.value = data
+    nextBatchNumber.value = data.length + 1
   } catch (error) {
     console.error('Error fetching batches:', error)
   }
 }
 
-onMounted(fetchBatches)
+const fetchProduceOptions = async () => {
+  try {
+    console.log('Fetching produce options...')
+    const response = await fetch('http://127.0.0.1:8000/api/inventory/get_produce_options/')
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    console.log('Received produce options:', data)
+
+    produceOptions.value = data
+  } catch (error) {
+    console.error('Error fetching produce options:', error)
+  }
+}
+
+const addBatch = (newBatch: Batch) => {
+  batches.value.push(newBatch)
+  nextBatchNumber.value++
+}
+
+onMounted(() => {
+  fetchBatches()
+  fetchProduceOptions()
+})
 </script>
 
 <style scoped>
