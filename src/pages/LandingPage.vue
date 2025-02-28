@@ -100,7 +100,7 @@ export default {
 .nav-item {
   display: flex;
   margin-left: 10px;
-
+  color: black;
   justify-content: center;
   align-items: center;
   width: 100px;
@@ -119,6 +119,7 @@ export default {
   margin-left: auto;
   margin-right: 10px;
   color: black;
+  padding-right: 3rem;
 }
 
 main {
@@ -185,6 +186,7 @@ a.hook {
   display: flex;
   flex-direction: column;
   gap: 15px;
+
 }
 
 .modal-title {

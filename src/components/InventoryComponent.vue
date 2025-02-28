@@ -118,9 +118,8 @@ thead {
 
 th {
   padding: 0.75rem 0.9375rem;
-  text-align: left;
+  text-align: center;
   font-weight: 500;
-  padding-left: 10rem;
 }
 
 td {
