@@ -2,6 +2,7 @@
   <div class="container">
     <div class="section home" id="home">
       <div class="nav">
+        <div class="nav-item">Logo</div>
         <div class="nav-item"><a href="#our-cause">Our Cause</a></div>
         <div class="nav-item"><a href="#about-us">About Us</a></div>
         <div class="nav-item login">Login</div>
@@ -77,9 +78,12 @@ main {
   flex-grow: 1;
   border: 1px solid red;
   width: 100%;
-  justify-items: center;
+  justify-items: left;
 }
 
+main > div {
+  margin-left: 6vw;
+}
 .title {
   height: 40vh;
   width: 50vw;
