@@ -76,9 +76,8 @@ h1 {
 
 .header-name {
   flex: 1;
-  text-align: left;
+  text-align: center;
   font-weight: 600;
-  padding-left: 10rem;
 }
 
 .header-branch {
