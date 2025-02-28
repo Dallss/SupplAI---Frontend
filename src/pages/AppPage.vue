@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .container {
   display: flex;
   min-height: 100vh;
