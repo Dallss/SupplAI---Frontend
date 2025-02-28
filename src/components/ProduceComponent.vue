@@ -1,35 +1,37 @@
 <template>
   <div class="produce-container">
-    <h1 class="title">Produce</h1>
-    <p class="subtitle">View and manage your produce.</p>
-    <div class="grid">
-      <div v-for="item in produce" :key="item.id" class="grid-item">
-        <img :src="item.image" alt="Produce image" class="item-image" />
-        <p class="item-name">{{ item.name }}</p>
+    <h2>Produce</h2>
+    <p>View and manage your produce.</p>
+    <div class="produce-list">
+      <div v-for="item in produceItems" :key="item.id" class="produce-item">
+        <img :src="item.image" :alt="item.name" />
+        <p>{{ item.name }}</p>
       </div>
-      <div class="grid-item add-button" @click="addItem">
-        <span>+</span>
-      </div>
+      <button class="add-item">+</button>
     </div>
   </div>
 </template>
 
 <script>
+import land from '@/assets/landing_bg.png'
 export default {
   data() {
     return {
-      produce: [
-        { id: 1, name: 'Apple', image: 'https://via.placeholder.com/80' },
-        { id: 2, name: 'Banana', image: 'https://via.placeholder.com/80' },
-        { id: 3, name: 'Carrot', image: 'https://via.placeholder.com/80' },
-        { id: 4, name: 'Tomato', image: 'https://via.placeholder.com/80' },
+      produceItems: [
+        { id: 1, name: 'Apple', image: land },
+        { id: 2, name: 'Banana', image: land },
+        { id: 3, name: 'Orange', image: land },
+        { id: 4, name: 'Grapes', image: land },
+        { id: 1, name: 'Apple', image: land },
+        { id: 2, name: 'Banana', image: land },
+        { id: 3, name: 'Orange', image: land },
+        { id: 4, name: 'Grapes', image: land },
+        { id: 1, name: 'Apple', image: land },
+        { id: 2, name: 'Banana', image: land },
+        { id: 3, name: 'Orange', image: land },
+        { id: 4, name: 'Grapes', image: land },
       ],
     }
-  },
-  methods: {
-    addItem() {
-      alert('Add new produce item')
-    },
   },
 }
 </script>
@@ -37,50 +39,46 @@ export default {
 <style scoped>
 .produce-container {
   padding: 20px;
+  color: #333;
 }
-.title {
-  font-size: 24px;
-  font-weight: bold;
+
+.produce-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
-.subtitle {
-  margin-bottom: 20px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-}
-.grid-item {
-  width: 100px;
-  height: 100px;
+
+.produce-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100px;
+  height: 120px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  background: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  background: #fff;
 }
-.item-image {
-  width: 60px;
-  height: 60px;
+
+.produce-item img {
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 5px;
 }
-.item-name {
-  margin-top: 5px;
-  font-size: 14px;
-  font-weight: bold;
-}
-.add-button {
+
+.add-item {
+  width: 100px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  border: 1px dashed #aaa;
+  border-radius: 8px;
+  background: #f8f8f8;
   cursor: pointer;
-  border: 2px dashed #ccc;
-}
-.add-button:hover {
-  background: #eaeaea;
 }
 </style>
