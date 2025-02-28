@@ -68,7 +68,7 @@ h1 {
 
 .table-header {
   display: flex;
-  background-color: #4b5d4b;
+  background-color: #354833;
   color: white;
   padding: 0.9375rem 1.25rem; 
   font-weight: 500;

@@ -1,7 +1,10 @@
 <template>
   <div class="inventory-container">
     <h1>Inventory</h1>
-    <p class="subtitle">View and manage your latest batches of produce.</p>
+    <div class="header">
+      <p class="subtitle">View and manage your latest batches of produce.</p>
+      <button class="add-batch-button">Add Batch</button>
+    </div>
     
     <div class="table-container">
       <table>
@@ -57,7 +60,6 @@ onMounted(fetchBatches)
 </script>
 
 <style scoped>
-
 .inventory-container {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   width: 100%;
@@ -72,10 +74,29 @@ h1 {
   font-weight: 600;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
 .subtitle {
   color: #555;
-  margin-top: 0;
-  margin-bottom: 1.25rem;
+  margin: 0;
+}
+
+.add-batch-button {
+  background-color: #354833;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+}
+
+.add-batch-button:hover {
+  background-color: #445D41;
 }
 
 .table-container {
@@ -99,6 +120,7 @@ th {
   padding: 0.75rem 0.9375rem;
   text-align: left;
   font-weight: 500;
+  padding-left: 10rem;
 }
 
 td {
