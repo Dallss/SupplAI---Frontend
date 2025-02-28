@@ -1,28 +1,59 @@
 <template>
   <div class="container">
+    <img src="@/assets/landing_bg.png" alt="" class="bg" />
     <div class="section home" id="home">
       <div class="nav">
-        <div class="nav-item">Logo</div>
+        <img src="@/assets/logo.png" alt="" class="nav-item logo" />
         <div class="nav-item"><a href="#our-cause">Our Cause</a></div>
         <div class="nav-item"><a href="#about-us">About Us</a></div>
-        <div class="nav-item login">Login</div>
+        <div class="nav-item login" @click="showModal = true">Login</div>
       </div>
       <main>
-        <div class="title"></div>
+        <div class="title">Sustainable <span class="future">Future</span></div>
         <div class="subheading">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia aliquid vel laudantium
-          reiciendis perferendis nobis qui architecto. Impedit natus praesentium commodi! Itaque ab
-          molestiae nostrum saepe, maiores soluta fuga libero.
+          SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+          tracking and real-time insights. Make every ingredient count—start managing smarter today
         </div>
-        <div class="hook">
-          <h2>Help us help you optimize your supply now - <a>Contact Us!</a></h2>
-        </div>
+        <h2 class="hook">
+          Help us help you optimize your supply now - <a href="#" class="hook">Contact Us!</a>
+        </h2>
       </main>
     </div>
     <div class="section our-cause" id="our-cause"></div>
     <div class="section about-us" id="about-us"></div>
+
+    <!-- modal -->
+    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
+      <div class="modal">
+        <h2 class="modal-title">Login</h2>
+        <input type="text" v-model="username" class="modal-input" placeholder="Username" />
+        <input type="password" v-model="password" class="modal-input" placeholder="Password" />
+        <div class="modal-actions">
+          <button @click="login" class="modal-button modal-login">Login</button>
+          <button @click="showModal = false" class="modal-button modal-cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      showModal: false,
+      username: '',
+      password: '',
+    }
+  },
+  methods: {
+    login() {
+      alert(`Logging in as ${this.username}`)
+      this.showModal = false
+    },
+  },
+}
+</script>
 
 <style scoped>
 .container {
@@ -32,7 +63,7 @@
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  background-color: rgb(106, 206, 106);
+  background-color: #354833;
 }
 .section {
   height: 100vh;
@@ -40,7 +71,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid black;
+  z-index: 2;
 }
 
 .home {
@@ -57,6 +88,15 @@
   align-items: center;
 }
 
+.bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width */
+  height: auto;
+  background: url('@/assets/bg-image.jpg') no-repeat center / cover;
+}
+
 .nav-item {
   display: flex;
   margin-left: 10px;
@@ -69,39 +109,129 @@
   cursor: pointer;
 }
 
+.logo {
+  width: auto;
+  height: 80px;
+  margin: 2px;
+}
+
 .login {
   margin-left: auto;
   margin-right: 10px;
+  color: black;
 }
 
 main {
   flex-grow: 1;
-  border: 1px solid red;
   width: 100%;
-  justify-items: left;
+  justify-items: center;
 }
 
-main > div {
-  margin-left: 6vw;
-}
 .title {
-  height: 40vh;
-  width: 50vw;
-  border: 1px solid blue;
-  margin-top: 5vh;
+  font-family: 'Poppins', sans-serif;
+  font-size: 80px;
+  margin-top: 15vh;
+  color: #0f5519;
+  font-weight: 1000;
+}
+.future {
+  color: black;
+  font-weight: 1000;
 }
 
 .subheading {
+  font-size: large;
   width: 60vw;
-  border: 1px solid yellow;
-  margin-top: 5vh;
+  margin-top: 2vh;
   text-align: center;
+  color: black;
 }
 
 .hook {
-  width: 40vw;
-  border: 1px solid purple;
+  width: 30vw;
+  height: auto;
   margin-top: 5vh;
   text-align: center;
+  color: #0f5519;
+  font-weight: 800;
+}
+
+a.hook {
+  color: #0f5519;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 350px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modal-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.modal-login {
+  background: #007bff;
+  color: white;
+}
+
+.modal-login:hover {
+  background: #0056b3;
+}
+
+.modal-cancel {
+  background: #ccc;
+  color: black;
+}
+
+.modal-cancel:hover {
+  background: #999;
 }
 </style>
