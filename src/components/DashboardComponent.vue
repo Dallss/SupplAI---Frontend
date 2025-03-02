@@ -44,8 +44,10 @@
     <!-- Details Modal -->
     <div v-if="isModalOpen" class="modal-overlay">
       <div class="modal-content">
-        <button @click="closeModal" class="close-button">✖</button>
-        <h2>Details for {{ modalTitle }}</h2>
+        <div class="modal-header">
+          <h2>Details for {{ modalTitle }}</h2>
+          <button @click="closeModal" class="close-button">✖</button>
+        </div>
         <table>
           <thead>
             <tr>
@@ -218,22 +220,42 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
 }
-
 .modal-content {
   background: white;
   padding: 20px;
   border-radius: 10px;
-  min-width: 400px;
-  max-width: 600px;
-  text-align: center;
+  min-width: 600px; /* Increase width */
+  max-width: 800px; /* Increase max width */
+  text-align: left; /* Align text to the left */
   position: relative;
 }
 
 .modal-content h2 {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: black;
+  text-align: left; /* Align header to the left */
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ddd; /* Add separator */
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: black;
+}
 /* Table Styles */
 table {
   width: 100%;
@@ -247,21 +269,5 @@ th, td {
   padding: 10px;
   text-align: left;
   background: white;
-}
-
-th {
-  background: #f4f4f4;
-}
-
-/* Close Button */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 12px;
-  cursor: pointer;
-  color: black;
 }
 </style>
