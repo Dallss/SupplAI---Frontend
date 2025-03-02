@@ -442,14 +442,17 @@ h1 {
 
 .table-container {
   background-color: white;
-  border-radius: 0.3125rem;
-  box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  margin-top: 1rem;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  margin: 0;
+  padding: 0;
 }
 
 thead {
@@ -458,16 +461,18 @@ thead {
 }
 
 th {
+  background-color: #354833;
   text-align: center;
   font-weight: 500;
   padding: 0.75rem 0.9375rem;
+  color: white;
 }
 
 td {
   padding: 0.75rem 0.9375rem;
-  border-bottom: 0.0625rem solid #eee;
   color: black;
   text-align: center;
+  border: none;
 }
 
 tbody tr:hover {
