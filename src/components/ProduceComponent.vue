@@ -1,15 +1,52 @@
 <template>
   <div class="produce-container">
-    <h2>Produce</h2>
-    <p>View and manage your produce.</p>
+    <h1 class="produce-title">Produce</h1>
+    <p class="produce-subtitle">View and manage your produce.</p>
+
     <div class="produce-list">
       <div v-for="item in produceItems" :key="item.id" class="produce-item">
         <img :src="item.image" :alt="item.name" />
         <p>{{ item.name }}</p>
       </div>
-      <button class="add-item">+</button>
+      <button class="add-item" @click="openModal">+</button>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div v-if="showModal" class="modal-overlay" @click="closeModal">
+    <div class="modal-content" @click.stop>
+      <div class="modal-header">
+        <h3>Add new produce</h3>
+      </div>
+
+      <div class="modal-body">
+        <!-- Image Upload -->
+        <div class="image-upload" @click="triggerFileInput">
+          <p v-if="!newProduce.image">Upload Image</p>
+          <img v-else :src="newProduce.image" alt="Preview" />
+        </div>
+        <input type="file" ref="fileInput" accept="image/*" @change="handleFileUpload" style="display: none" />
+
+        <!-- Name Input -->
+        <input type="text" v-model="newProduce.name" placeholder="Enter name" />
+
+        <!-- Produce Type Dropdown -->
+        <select v-model="newProduce.type">
+          <option disabled value="">Select Produce Type</option>
+          <option v-for="type in produceTypes" :key="type" :value="type">
+            {{ type }}
+          </option>
+        </select>
+
+        <!-- Buttons -->
+        <div class="button-group">
+          <button @click="closeModal">Cancel</button>
+          <button @click="addProduce">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script setup>
@@ -18,14 +55,53 @@ import land from '@/assets/landing_bg.png'
 import produceService from '@/api/produceService'
 
 const produceItems = ref([{ id: 1, name: 'fetching', image: land }])
+const showModal = ref(false)
+const newProduce = ref({ name: '', type: '', image: null })
+const produceTypes = ref(['Fruit', 'Vegetable', 'Grain', 'Dairy', 'Meat'])
+const fileInput = ref(null)
 
 async function fetchProduce() {
   try {
     const data = await produceService.getAll()
-    console.log(data.data)
     produceItems.value = data.data
   } catch (error) {
     console.error('Error fetching data:', error)
+  }
+}
+
+function openModal() {
+  showModal.value = true
+}
+
+function closeModal() {
+  showModal.value = false
+  newProduce.value = { name: '', type: '', image: null }
+}
+
+function addProduce() {
+  if (newProduce.value.name.trim() !== '' && newProduce.value.type) {
+    produceItems.value.push({
+      id: produceItems.value.length + 1,
+      name: newProduce.value.name,
+      type: newProduce.value.type,
+      image: newProduce.value.image || land
+    })
+    closeModal()
+  }
+}
+
+function triggerFileInput() {
+  fileInput.value.click()
+}
+
+function handleFileUpload(event) {
+  const file = event.target.files[0]
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = () => {
+      newProduce.value.image = reader.result
+    }
+    reader.readAsDataURL(file)
   }
 }
 
@@ -38,10 +114,20 @@ onMounted(fetchProduce)
   color: #333;
 }
 
+.produce-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.produce-subtitle {
+  margin-bottom: 20px; /* Adds space before the cards */
+  font-size: 16px;
+}
+
 .produce-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px; /* Increases spacing */
   align-items: center;
 }
 
@@ -50,8 +136,8 @@ onMounted(fetchProduce)
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100px;
-  height: 120px;
+  width: 120px; /* Increased size */
+  height: 140px; /* Increased size */
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
@@ -59,22 +145,124 @@ onMounted(fetchProduce)
 }
 
 .produce-item img {
-  width: 80px;
-  height: 80px;
+  width: 90px; /* Slightly increased size */
+  height: 90px;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .add-item {
-  width: 100px;
-  height: 120px;
+  width: 120px; /* Adjusted to match the card size */
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 28px; /* Slightly larger */
   border: 1px dashed #aaa;
   border-radius: 8px;
   background: #f8f8f8;
   cursor: pointer;
 }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center modal */
+}
+
+.modal-header {
+  background: #354833; /* Green */
+  color: white;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  width: 100%; /* Ensure full width */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.modal-content {
+  background: white;
+  padding: 0; /* Remove extra padding */
+  border-radius: 10px;
+  text-align: left;
+  width: 320px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Ensures seamless blending of the header */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* Image Upload */
+.image-upload {
+  width: 100%;
+  height: 150px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+}
+.modal-body {
+  padding: 20px; /* Add padding inside the modal */
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Add spacing between elements */
+}
+
+/* Image Upload */
+.image-upload {
+  padding: 10px; /* Ensure padding inside */
+  margin-bottom: 12px; /* Space before input */
+}
+
+/* Input and Dropdown */
+.modal-content input,
+.modal-content select {
+  padding: 10px;
+  margin: 5px 0; /* Adjust spacing */
+}
+
+/* Buttons */
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  width: 100%;
+}
+
+/* Buttons */
+.button-group button {
+  flex: 1; /* Make buttons take equal width */
+  padding: 12px;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Add Button */
+.button-group button:last-child {
+  background: #4b6747;
+}
+
+/* Cancel Button */
+.button-group button:first-child {
+  background: #3b3737;
+}
+
 </style>
