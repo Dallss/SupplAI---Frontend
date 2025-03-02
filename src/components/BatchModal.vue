@@ -1,65 +1,22 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import SelectProduceModal from "@/components/SelectProduceModal.vue"
-
-interface Produce {
-  name: string;
-  stock: number;
-}
-
-interface ProduceOption {
-  id: number;
-  name: string;
-}
-
-const props = defineProps<{
-  batchNumber: number;
-  produceOptions: ProduceOption[];
-}>();
-
-const emit = defineEmits(['close', 'add-batch']);
-
-const produces = ref<Produce[]>([]);
-const showSelectProduceModal = ref(false);
-
-const addProduce = (produceName: string) => {
-  produces.value.push({ name: produceName, stock: 0 });
-};
-
-const submitBatch = () => {
-  const validProduces = produces.value.filter(p => p.name.trim() !== '');
-
-  if (validProduces.length === 0) {
-    alert('Please add at least one produce item');
-    return;
-  }
-
-  emit('add-batch', validProduces);
-};
-
-const openSelectProduceModal = () => {
-  showSelectProduceModal.value = true;
-};
-
-const closeSelectProduceModal = () => {
-  showSelectProduceModal.value = false;
-};
-
-const handleSelectProduce = (produceName: string) => {
-  addProduce(produceName);
-  closeSelectProduceModal();
-};
-</script>
-
 <template>
   <div class="modal-backdrop" @click="emit('close')">
     <div class="modal-content" @click.stop>
-        <div class="modal-header">
-            <h2>Batch #{{ batchNumber }}</h2>
-            <button class="close-button" @click.stop="emit('close')">&times;</button>
-        </div>
+      <div class="modal-header">
+        <h2>Batch #{{ batchNumber }}</h2>
+        <button class="close-button" @click="emit('close')">&times;</button>
+      </div>
 
       <div class="modal-body">
+        <div class="batch-manager-section">
+          <label for="batch-manager">Batch Manager:</label>
+          <select id="batch-manager" v-model="selectedBatchManager" class="select-style">
+            <option value="" disabled selected>Select Batch Manager</option>
+            <option v-for="(manager, index) in batchManagers" :key="index" :value="manager">
+              {{ manager }}
+            </option>
+          </select>
+        </div>
+
         <div class="produces-container">
           <div 
             v-for="(produce, index) in produces" 
@@ -67,18 +24,32 @@ const handleSelectProduce = (produceName: string) => {
             class="produce-item"
           >
             <div class="produce-card">
-              <input 
-                type="text" 
-                v-model="produce.name" 
-                placeholder="Produce name"
-                readonly
-              />
-              <div class="stock-label">Stock:</div>
-              <input 
-                type="number" 
-                v-model="produce.stock" 
-                min="0"
-              />
+              <div class="produce-name">{{ produce.name }}</div>
+              
+              <div class="input-row">
+                <div class="input-group">
+                  <div class="label">Stock:</div>
+                  <input 
+                    type="number" 
+                    v-model="produce.stock" 
+                    class="stock-input"
+                    min="0"
+                  />
+                </div>
+                
+                <div class="input-group">
+                  <div class="label">Health:</div>
+                  <select 
+                    v-model="produce.health" 
+                    class="health-select"
+                  >
+                    <option value="Fresh">Fresh</option>
+                    <option value="Ripe">Ripe</option>
+                    <option value="Overripe">Overripe</option>
+                    <option value="Spoiled">Spoiled</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -98,12 +69,82 @@ const handleSelectProduce = (produceName: string) => {
   </div>
 
   <SelectProduceModal 
+    v-if="showSelectProduceModal"
     :show="showSelectProduceModal" 
     :produceOptions="produceOptions" 
     @close="closeSelectProduceModal" 
     @select-produce="handleSelectProduce" 
   />
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import SelectProduceModal from "@/components/SelectProduceModal.vue"
+
+interface Produce {
+  name: string;
+  stock: number;
+  health: string;
+}
+
+interface ProduceOption {
+  id: number;
+  name: string;
+}
+
+const props = defineProps<{
+  show: boolean;
+  batchNumber: number;
+  produceOptions: ProduceOption[];
+  batchManagers: string[];
+}>();
+
+const emit = defineEmits(['close', 'add-batch']);
+
+const produces = ref<Produce[]>([]);
+const showSelectProduceModal = ref(false);
+const selectedBatchManager = ref<string>('');
+
+const addProduce = (produceName: string) => {
+  produces.value.push({ 
+    name: produceName, 
+    stock: 1,
+    health: 'Fresh'
+  });
+};
+
+const submitBatch = () => {
+  const validProduces = produces.value.filter(p => p.name.trim() !== '');
+
+  if (validProduces.length === 0) {
+    alert('Please add at least one produce item');
+    return;
+  }
+
+  if (!selectedBatchManager.value) {
+    alert('Please select a batch manager');
+    return;
+  }
+
+  emit('add-batch', {
+    produces: validProduces,
+    batchManager: selectedBatchManager.value
+  });
+};
+
+const openSelectProduceModal = () => {
+  showSelectProduceModal.value = true;
+};
+
+const closeSelectProduceModal = () => {
+  showSelectProduceModal.value = false;
+};
+
+const handleSelectProduce = (produceName: string) => {
+  addProduce(produceName);
+  closeSelectProduceModal();
+};
+</script>
 
 <style scoped>
 .modal-backdrop {
@@ -154,6 +195,21 @@ const handleSelectProduce = (produceName: string) => {
   padding: 1rem;
 }
 
+.batch-manager-section {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: black;
+}
+
+.select-style {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  min-width: 200px;
+}
+
 .produces-container {
   display: flex;
   flex-wrap: wrap;
@@ -171,17 +227,53 @@ const handleSelectProduce = (produceName: string) => {
   padding: 1rem;
   border-radius: 0.25rem;
   background-color: #fff;
-  height: 150px;
+  height: 180px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-.stock-label {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+.produce-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #3c4a3e;
+}
+
+.input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.label {
   color: black;
+  font-weight: 500;
+}
+
+.stock-input {
+  width: 60px;
+  padding: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
+.health-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  width: 120px;
+  text-align: center;
 }
 
 .add-produce-card {
@@ -189,7 +281,7 @@ const handleSelectProduce = (produceName: string) => {
   padding: 1rem;
   border-radius: 0.25rem;
   background-color: #fff;
-  height: 150px;
+  height: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -232,13 +324,5 @@ const handleSelectProduce = (produceName: string) => {
 
 .confirm-button:hover {
   background-color: #445D41;
-}
-
-input[type="number"] {
-  width: 80px;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.25rem;
-  text-align: center;
 }
 </style>

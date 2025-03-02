@@ -1,3 +1,30 @@
+<template>
+  <div v-if="show" class="modal-backdrop" @click="emit('close')">
+    <div class="modal-content" @click.stop>
+      <div class="modal-header">
+        <h2>Select Produce</h2>
+        <button class="close-button" @click="emit('close')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div>
+          <label for="produce-select">Produce:</label>
+          <select class="select-style" id="produce-select" v-model="selectedProduce">
+            <option value="" disabled selected>Select Produce</option>
+            <option v-for="produce in produceOptions" :key="produce.id" :value="produce.name">
+                {{ produce.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="confirm-button" @click="confirmSelection">Confirm</button>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref, defineProps, defineEmits } from 'vue'
 
@@ -24,33 +51,6 @@ const confirmSelection = () => {
   }
 };
 </script>
-
-<template>
-  <div v-if="show" class="modal-backdrop" @click="emit('close')">
-    <div class="modal-content" @click.stop>
-      <div class="modal-header">
-        <h2>Select Produce</h2>
-        <button class="close-button" @click="emit('close')">&times;</button>
-      </div>
-
-      <div class="modal-body">
-        <div>
-          <label for="produce-select">Produce:</label>
-          <select class="select_style" id="produce-select" v-model="selectedProduce">
-            <option value="" disabled selected>Select Produce</option>
-            <option v-for="produce in produceOptions" :key="produce.id" :value="produce.name">
-                {{ produce.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="confirm-button" @click="confirmSelection">Confirm</button>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .modal-backdrop {
@@ -97,8 +97,11 @@ const confirmSelection = () => {
   color: #666;
 }
 
-.select_style {
-  padding-left: 2rem;
+.select-style {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  min-width: 200px;
 }
 
 .modal-body {
