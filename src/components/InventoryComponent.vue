@@ -83,24 +83,48 @@
     <div v-if="showUpdateModal" class="modal-backdrop" @click="showUpdateModal = false">
       <div class="modal-content update-modal" @click.stop>
         <div class="modal-header">
-          <h2>Update Produce Health</h2>
+          <h2>Update Produce</h2>
           <button class="close-button" @click="showUpdateModal = false">&times;</button>
         </div>
         <div class="modal-body">
-          <div class="details-row">
-            <div class="detail-label">Produce Name:</div>
-            <div class="detail-value">{{ selectedProduce?.name }}</div>
-          </div>
-          <div class="details-row">
-            <div class="detail-label">Current Health:</div>
-            <div class="detail-value">{{ selectedProduce?.health }}</div>
-          </div>
-          <div class="details-row">
-            <div class="detail-label">Update Health:</div>
-            <select v-model="selectedProduce.health" class="health-select">
-              <option value="Fresh">Fresh</option>
-              <option value="Spoiled">Spoiled</option>
-            </select>
+          <div class="modal-body-content">
+            <div class="qr-section">
+              <div class="qr-title">Update Produce Health</div>
+              <div class="qr-placeholder">QR</div>
+              <div class="details-row">
+                <div class="detail-label">Current Health:</div>
+                <div class="detail-value">{{ selectedProduce?.health }}</div>
+              </div>
+              <div class="details-row">
+                <div class="detail-label">Update Health:</div>
+                <select v-model="selectedProduce.health" class="health-select">
+                  <option value="Fresh">Fresh</option>
+                  <option value="Spoiled">Spoiled</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-details">
+              <div class="details-row">
+                <div class="detail-label">Produce Name:</div>
+                <div class="detail-value">{{ selectedProduce?.name }}</div>
+              </div>
+              <div class="details-row">
+                <div class="detail-label">Total Stock:</div>
+                <div class="detail-value">{{ selectedProduce?.stock }}</div>
+              </div>
+              <div class="details-row">
+                <div class="detail-label">Stock Spent:</div>
+                <input type="number" v-model="stockSpent" class="stock-input" min="0" />
+              </div>
+              <div class="details-row">
+                <div class="detail-label">Stock Wasted:</div>
+                <input type="number" v-model="stockWasted" class="stock-input" min="0" />
+              </div>
+              <div class="details-row">
+                <div class="detail-label">Stock Remaining:</div>
+                <div class="detail-value">{{ remainingStock }}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -112,7 +136,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import BatchModal from "@/components/BatchModal.vue"
 
 interface Batch {
@@ -155,6 +179,29 @@ const batchProduces = ref<ProduceItem[]>([])
 // Update modal
 const showUpdateModal = ref(false)
 const selectedProduce = ref<ProduceItem | null>(null)
+const stockSpent = ref(0)
+const stockWasted = ref(0)
+
+const remainingStock = computed(() => {
+  if (selectedProduce.value) {
+    return Math.max(selectedProduce.value.stock - stockSpent.value - stockWasted.value, 0);
+  }
+  return 0;
+});
+
+const updateHealth = () => {
+  if (selectedProduce.value) {
+    selectedProduce.value.stock = remainingStock.value;
+  }
+  showUpdateModal.value = false;
+};
+
+
+watch([stockSpent, stockWasted], () => {
+  if (selectedProduce) {
+    selectedProduce.stock = remainingStock.value
+  }
+})
 
 const fetchBatches = async () => {
   try {
@@ -263,12 +310,11 @@ const deleteBatch = (batchId: string | undefined) => {
 
 const openUpdateModal = (index: number) => {
   selectedProduce.value = batchProduces.value[index];
+  stockSpent.value = 0;
+  stockWasted.value = 0;
   showUpdateModal.value = true;
 }
 
-const updateHealth = () => {
-  showUpdateModal.value = false;
-}
 
 const deleteProduce = (index: number) => {
   batchProduces.value.splice(index, 1);
@@ -524,6 +570,14 @@ h3 {
   font-weight: 500;
 }
 
+.stock-input {
+  width: 60px;
+  padding: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  text-align: center;
+}
+
 .health-select {
   padding: 0.5rem;
   border: 1px solid #ddd;
@@ -546,9 +600,42 @@ h3 {
   background-color: #445D41;
 }
 
-.modal-footer{
+.modal-footer {
   display: flex;
-  padding-bottom: 1rem;
-  padding-left: 1rem;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.modal-body-content {
+  display: flex;
+  gap: 1rem;
+}
+
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-title {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.qr-placeholder {
+  width: 12rem;
+  height: 12rem;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #666;
+  flex-direction: column;
+}
+
+.modal-details {
+  flex: 1;
 }
 </style>
