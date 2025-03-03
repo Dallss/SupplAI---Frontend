@@ -50,7 +50,13 @@
             <div class="detail-label">Batch Manager:</div>
             <div class="detail-value">{{ selectedBatch?.batch_manager }}</div>
             <button class="add-produce-button" @click="openAddProduceModal">Add Produce</button>
-            <button class="delete-button" @click="deleteBatch(selectedBatch?.batch_id)">Delete Batch</button>
+            <div class="delete-dropdown">
+              <button class="delete-button" @click="toggleBatchDeleteOptions">Delete Batch</button>
+              <div v-if="showBatchDeleteOptions" class="delete-options">
+                <button @click="markBatchAsSpoiled">Mark as Spoiled</button>
+                <button @click="deleteBatch(selectedBatch?.batch_id)">Delete from Database</button>
+              </div>
+            </div>
           </div>
           <div class="details-row">
             <div class="detail-label">Added to Inventory On:</div>
@@ -72,7 +78,13 @@
                 </div>
                 <div class="detail-row">
                   <button class="update-button" @click="openUpdateModal(index)">Update</button>
-                  <button class="delete-button" @click="deleteProduce(index)">Delete</button>
+                  <div class="delete-dropdown">
+                    <button class="delete-button" @click="toggleDeleteOptions(index)">Delete</button>
+                    <div v-if="showDeleteOptions[index]" class="delete-options">
+                      <button @click="markAsSpoiled(index)">Mark as Spoiled</button>
+                      <button @click="deleteProduce(index)">Delete from Database</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -167,6 +179,35 @@ interface ProduceItem {
   stock: number;
   health: string;
 }
+
+const showDeleteOptions = ref<boolean[]>([]);
+const showBatchDeleteOptions = ref(false);
+
+const toggleDeleteOptions = (index: number) => {
+  showDeleteOptions.value = showDeleteOptions.value.map((show, i) => i === index ? !show : false);
+};
+
+const toggleBatchDeleteOptions = () => {
+  showBatchDeleteOptions.value = !showBatchDeleteOptions.value;
+};
+
+const markAsSpoiled = (index: number) => {
+  if (selectedBatch.value) {
+    selectedBatch.value.produces?.forEach(produce => {
+      produce.health = 'Spoiled';
+    });
+  }
+  showDeleteOptions.value[index] = false;
+};
+
+const markBatchAsSpoiled = () => {
+  if (selectedBatch.value) {
+    selectedBatch.value.produces?.forEach(produce => {
+      produce.health = 'Spoiled';
+    });
+  }
+  showBatchDeleteOptions.value = false;
+};
 
 interface ProduceOption {
   id: number;
@@ -344,6 +385,8 @@ const viewBatchDetails = (batch: Batch) => {
   selectedBatch.value = batch;
   batchProduces.value = batch.produces || [];
   showBatchDetails.value = true;
+  showDeleteOptions.value = new Array(batchProduces.value.length).fill(false);
+  showBatchDeleteOptions.value = false;
 }
 
 const deleteBatch = (batchId: string | undefined) => {
@@ -509,6 +552,7 @@ tbody tr:last-child td {
 
 .delete-button:hover {
   background-color: #b71c1c;
+  padding: 0.5rem 1.5rem;
 }
 
 .update-button {
@@ -544,7 +588,7 @@ tbody tr:last-child td {
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow-y: scroll;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 }
 
@@ -600,6 +644,36 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.delete-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.delete-options {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 160px;
+  right: 0;
+  z-index: 10;
+  margin-top: 0.5rem;
+}
+
+.delete-options button {
+  width: 100%;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.delete-options button:hover {
+  background-color: #b52c2c;
+  color: white;
 }
 
 .produce-detail-card {
