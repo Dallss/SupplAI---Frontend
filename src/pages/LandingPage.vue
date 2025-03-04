@@ -1,16 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const showModal = ref(false);
-const username = ref('');
-const password = ref('');
-
-function login() {
-  alert(`Logging in as ${username.value}`);
-  showModal.value = false;
-}
-</script>
-
 <template>
   <div class="container">
     <img src="@/assets/landing_bg.png" alt="" class="bg" />
@@ -41,25 +28,31 @@ function login() {
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
-          
+
           <div class="feature-card">
             <div class="feature-header">
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
-          
+
           <div class="feature-card">
             <div class="feature-header">
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
         </div>
@@ -74,16 +67,20 @@ function login() {
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
-          
+
           <div class="feature-card">
             <div class="feature-header">
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
         </div>
@@ -98,16 +95,20 @@ function login() {
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
-          
+
           <div class="feature-card">
             <div class="feature-header">
               <span class="feature-label">Run</span>
             </div>
             <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+              tracking and real-time insights. Make every ingredient count—start managing smarter
+              today
             </p>
           </div>
         </div>
@@ -116,18 +117,17 @@ function login() {
 
     <!-- modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="modal">
-        <h2 class="modal-title">Login</h2>
-        <input type="text" v-model="username" class="modal-input" placeholder="Username" />
-        <input type="password" v-model="password" class="modal-input" placeholder="Password" />
-        <div class="modal-actions">
-          <button @click="login" class="modal-button modal-login">Login</button>
-          <button @click="showModal = false" class="modal-button modal-cancel">Cancel</button>
-        </div>
-      </div>
+      <LogInModal />
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import LogInModal from '@/components/LogInModal.vue'
+
+const showModal = ref(false)
+</script>
 
 <style scoped>
 .container {
@@ -304,23 +304,6 @@ a.hook {
   margin-left: 7.85rem;
 }
 
-/* .feature-bracket {
-  position: relative;
-  width: 100px;
-  height: 50px;
-}
-
-.feature-bracket::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-top: 10px solid white;
-  border-right: 10px solid white;
-  border-radius: 0 10px 0 0;
-  margin-left: 12rem;
-} */
-
 .feature-text {
   font-size: 0.9rem;
   text-align: center;
@@ -381,23 +364,5 @@ a.hook {
   cursor: pointer;
   font-size: 1rem;
   transition: 0.3s;
-}
-
-.modal-login {
-  background: #007bff;
-  color: white;
-}
-
-.modal-login:hover {
-  background: #0056b3;
-}
-
-.modal-cancel {
-  background: #ccc;
-  color: black;
-}
-
-.modal-cancel:hover {
-  background: #999;
 }
 </style>
