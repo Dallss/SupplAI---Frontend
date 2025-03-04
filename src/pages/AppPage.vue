@@ -9,16 +9,16 @@
           <Feather type="home" /> DASHBOARD
         </router-link>
         <router-link to="/app/inventory" class="nav-link">
-          <Feather type="box" /> INVENTORY
+          <Feather type="package" /> INVENTORY
         </router-link>
         <router-link to="/app/produce" class="nav-link">
-          <Feather type="box" /> PRODUCE
+          <Feather type="archive" /> PRODUCE
         </router-link>
         <router-link to="/app/employees" class="nav-link">
-          <Feather type="user" /> EMPLOYEES
+          <Feather type="users" /> EMPLOYEES
         </router-link>
         <router-link to="/app/camera" class="nav-link">
-          <Feather type="camera" /> CAMERA  <!-- ✅ Added Camera Link -->
+          <Feather type="activity" /> MONITOR  <!-- ✅ Added Camera Link -->
         </router-link>
       </nav>
     </aside>

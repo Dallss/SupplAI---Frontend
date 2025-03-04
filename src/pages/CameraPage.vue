@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <h1 style="color:green;">Food Freshness Predictor</h1>
+    <h1>Food Freshness Predictor</h1>
+    <div class="camera-page">
 
         <!-- Display Batch & Produce Information -->
         <h2>Batch ID: {{ batch }}</h2>
@@ -157,25 +157,37 @@ methods: {
 </script>
 
 <style>
-button {
-margin-top: 10px;
-padding: 10px;
-background-color: #28a745;
-color: white;
-border: none;
-cursor: pointer;
-}
-button:disabled {
-background-color: #ccc;
-}
-.results {
-color: #004d00; /* Dark Green */
-font-weight: bold;
-font-size: 18px;
-}
-video {
-width: 300px;
-margin-top: 10px;
-}
+
+    h1 {
+        color: black;
+    }
+    .camera-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #354833;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    button:disabled {
+        background-color: #ccc;
+    }
+    .results {
+        color: #004d00; /* Dark Green */
+        font-weight: bold;
+        font-size: 18px;
+    }
+    video {
+        width: 300px;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
 </style>
 
