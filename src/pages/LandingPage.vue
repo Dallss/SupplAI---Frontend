@@ -130,6 +130,25 @@ const showModal = ref(false)
 </script>
 
 <style scoped>
+
+html {
+  max-width: 100%;
+}
+
+body {
+  /* box-sizing: border-box; */
+  margin: 0;
+  padding: 0;
+  overflow-x:hidden;
+
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #126d2a;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -137,12 +156,17 @@ const showModal = ref(false)
   align-items: center;
   min-height: 100vh;
   width: 100vw;
+  /* max-width: 100%; */
   background-color: #354833;
+  background-size: cover;
   scroll-snap-type: y mandatory; /* Enable scroll snapping */
   overflow-y: scroll; /* Enable vertical scrolling */
   margin: 0; /* Ensure no margin on the container */
   padding: 0; /* Ensure no padding on the container */
+  scrollbar-width: none;
 }
+
+
 
 .section {
   height: 100vh;
@@ -157,6 +181,7 @@ const showModal = ref(false)
 }
 
 .home {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -180,6 +205,7 @@ const showModal = ref(false)
   left: 0;
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 .nav-item {
@@ -202,17 +228,22 @@ const showModal = ref(false)
 
 .login {
   margin-left: auto;
-  margin-right: 10px;
-  color: black;
-  padding-right: 3rem;
+  /* margin-right: 10px; */
+  color: white;
+  font-weight: bold;
+  background-color: #126d2a;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 40px;
+  cursor: pointer;
 }
 
 main {
-  flex-grow: 1;
-  width: 100%;
-  justify-items: center;
-  margin: 0; /* Ensure no margin on the main */
-  padding: 0; /* Ensure no padding on the main */
+  /* flex-grow: 1; */
+  /* width: 100%;
+  justify-items: center; */
+  /* margin: 0; Ensure no margin on the main */
+  /* padding: 0; Ensure no padding on the main */
 }
 
 .title {
@@ -229,14 +260,14 @@ main {
 
 .subheading {
   font-size: large;
-  width: 60vw;
+  width: 60%;
   margin-top: 2vh;
   text-align: center;
   color: black;
 }
 
 .hook {
-  width: 30vw;
+  width: 30%;
   height: auto;
   margin-top: 5vh;
   text-align: center;
@@ -266,7 +297,8 @@ a.hook {
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 4rem;
+  font-family: 'Courier New', Courier, monospace;
   margin-bottom: 3rem;
   text-align: center;
   color: white;
@@ -280,7 +312,7 @@ a.hook {
 }
 
 .feature-card {
-  background-color: #354833;
+  background-color: #81907f;
   border-radius: 1rem;
   padding: 2rem;
   width: 300px;
