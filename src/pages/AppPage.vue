@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <aside class="nav">
+    <aside class="nav" v-if="$route.path !== '/app/camera'">
       <div class="logo">
         <img src="@/assets/logo-white.svg" alt="suppl.ai logo">
       </div>
@@ -23,7 +23,7 @@
       </nav>
     </aside>
 
-    <main class="content">
+    <main class="content" >
       <router-view />
     </main>
   </div>
