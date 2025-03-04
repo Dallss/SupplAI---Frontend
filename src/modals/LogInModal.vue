@@ -5,9 +5,7 @@
     <input type="password" v-model="password" class="modal-input" placeholder="Password" />
     <div class="modal-actions">
       <button type="submit" class="modal-button modal-login">Login</button>
-      <button type="button" @click="$emit('closeModal')" class="modal-button modal-cancel">
-        Cancel
-      </button>
+      <button type="button" @click="closeModal" class="modal-button modal-cancel">Cancel</button>
     </div>
   </form>
 </template>
@@ -41,6 +39,10 @@ async function login() {
     console.error('Login failed:', error.response?.data || error.message)
     alert('Login failed. Please check your credentials.')
   }
+}
+
+const closeModal = () => {
+  emit('closeModal')
 }
 
 // Define `emit` for closing the modal

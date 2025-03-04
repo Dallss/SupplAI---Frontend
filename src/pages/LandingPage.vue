@@ -1,132 +1,48 @@
 <template>
-  <div class="container">
-    <img src="@/assets/landing_bg.png" alt="" class="bg" />
-    <div class="section home" id="home">
-      <div class="nav">
-        <img src="@/assets/logo.png" alt="" class="nav-item logo" />
-        <div class="nav-item"><a href="#our-cause">Our Cause</a></div>
-        <div class="nav-item"><a href="#about-us">About Us</a></div>
-        <div class="nav-item login" @click="showModal = true">Login</div>
-      </div>
-      <main>
-        <div class="title">Sustainable <span class="future">Future</span></div>
-        <div class="subheading">
-          SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-          tracking and real-time insights. Make every ingredient count—start managing smarter today
-        </div>
-        <h2 class="hook">
-          Help us help you optimize your supply now - <a href="#" class="hook">Contact Us!</a>
-        </h2>
-      </main>
+  <form class="modal" @submit.prevent="login">
+    <h2 class="modal-title">Login</h2>
+    <input type="text" v-model="username" class="modal-input" placeholder="Username" />
+    <input type="password" v-model="password" class="modal-input" placeholder="Password" />
+    <div class="modal-actions">
+      <button type="submit" class="modal-button modal-login">Login</button>
+      <button type="button" @click="closeModal" class="modal-button modal-cancel">Cancel</button>
     </div>
-    <div class="section key-features" id="key-features">
-      <div class="features-container">
-        <h2 class="section-title">Key Features</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section our-cause" id="our-cause">
-      <div class="features-container">
-        <h2 class="section-title">Our Cause</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section about-us" id="about-us">
-      <div class="features-container">
-        <h2 class="section-title">About Us</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- modal -->
-    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <LogInModal />
-    </div>
-  </div>
+  </form>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import LogInModal from '@/modals/LogInModal.vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
-const showModal = ref(false)
+const username = ref('')
+const password = ref('')
+const router = useRouter()
+const emit = defineEmits(['closeModal']) // ✅ Correctly define emits
+
+async function login() {
+  try {
+    const response = await axios.post('http://localhost:8000/api/user/login/', {
+      username: username.value,
+      password: password.value,
+    })
+
+    console.log('Login successful:', response.data)
+    localStorage.setItem('token', response.data.token)
+
+    emit('closeModal') // ✅ Close modal after login
+
+    router.push('/app/dashboard') // ✅ Redirect after login
+  } catch (error) {
+    console.error('Login failed:', error.response?.data || error.message)
+    alert('Login failed. Please check your credentials.')
+  }
+}
+
+// ✅ Close modal when cancel button is clicked
+const closeModal = () => {
+  emit('closeModal')
+}
 </script>
 
 <style scoped>
