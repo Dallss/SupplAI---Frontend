@@ -36,11 +36,12 @@
     </div>
 
     <!-- AI Recommendation Banner -->
-    <div class="ai-recommendation">
+    <div class="long-boxes ai-recommendation">
       <span class="ai-icon">📦</span>
       <p>SUPPL.AI recommends you purchase the next batch of produce in <strong>10 days</strong>.</p>
     </div>
 
+    <div class="long-boxes">Graph</div>
     <!-- Details Modal -->
     <div v-if="isModalOpen" class="modal-overlay">
       <div class="modal-content">
@@ -72,60 +73,60 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from 'vue'
 
-const near_exp = ref(0);
-const low_supply = ref(0);
-const wasted_stock = ref(0);
-const isModalOpen = ref(false);
-const modalTitle = ref('');
-const modalData = ref([]);
+const near_exp = ref(0)
+const low_supply = ref(0)
+const wasted_stock = ref(0)
+const isModalOpen = ref(false)
+const modalTitle = ref('')
+const modalData = ref([])
 
 const getColor = (value) => {
-  return value > 10 ? '#b71c1c' : '#2e7d32';
-};
+  return value > 10 ? '#b71c1c' : '#2e7d32'
+}
 
 const fetchData = async (url, targetRef, key) => {
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const response = await fetch(url)
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
-    const data = await response.json();
-    targetRef.value = data[key] || 0;
+    const data = await response.json()
+    targetRef.value = data[key] || 0
   } catch (error) {
-    console.error(`Error fetching ${url}:`, error);
+    console.error(`Error fetching ${url}:`, error)
   }
-};
+}
 
 const openModal = async (category) => {
-  isModalOpen.value = true;
+  isModalOpen.value = true
   modalTitle.value =
     category === 'near_exp'
       ? 'Produce Near Expiry'
       : category === 'wasted_stock'
-      ? 'Stock Wasted'
-      : 'Items Low on Supply';
+        ? 'Stock Wasted'
+        : 'Items Low on Supply'
 
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/details/${category}/`);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const response = await fetch(`http://127.0.0.1:8000/api/details/${category}/`)
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
 
-    modalData.value = await response.json();
+    modalData.value = await response.json()
   } catch (error) {
-    console.error(`Error fetching details:`, error);
+    console.error(`Error fetching details:`, error)
   }
-};
+}
 
 const closeModal = () => {
-  isModalOpen.value = false;
-  modalData.value = [];
-};
+  isModalOpen.value = false
+  modalData.value = []
+}
 
 onMounted(() => {
-  fetchData('http://127.0.0.1:8000/api/dashboard/near_exp/', near_exp, 'avg');
-  fetchData('http://127.0.0.1:8000/api/dashboard/low_stock/', low_supply, 'low');
-  fetchData('http://127.0.0.1:8000/api/dashboard/wasted_stock/', wasted_stock, 'wasted');
-});
+  fetchData('http://127.0.0.1:8000/api/dashboard/near_exp/', near_exp, 'avg')
+  fetchData('http://127.0.0.1:8000/api/dashboard/low_stock/', low_supply, 'low')
+  fetchData('http://127.0.0.1:8000/api/dashboard/wasted_stock/', wasted_stock, 'wasted')
+})
 </script>
 
 <style scoped>
@@ -191,17 +192,23 @@ onMounted(() => {
 }
 
 .details-button:hover {
-  background-color: #388E3C;
+  background-color: #388e3c;
+}
+
+.long-boxes {
+  background: white;
+  color: black;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .ai-recommendation {
   background: linear-gradient(to right, #5a7f5a, #4a6b4a);
   color: white;
-  padding: 15px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .ai-icon {
@@ -264,7 +271,8 @@ table {
   color: black;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
