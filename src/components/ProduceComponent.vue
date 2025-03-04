@@ -19,19 +19,19 @@
         <h3>Add new produce</h3>
       </div>
 
-      <div class="modal-body">
+      <form @submit.prevent="addProduce" class="modal-body">
         <!-- Image Upload -->
         <div class="image-upload" @click="triggerFileInput">
           <p v-if="!newProduce.image">Upload Image</p>
-          <img v-else :src="newProduce.image" alt="Preview" />
+          <img v-if="newProduce.imagePreview" :src="newProduce.imagePreview" alt="Preview" />
         </div>
         <input type="file" ref="fileInput" accept="image/*" @change="handleFileUpload" style="display: none" />
 
         <!-- Name Input -->
-        <input type="text" v-model="newProduce.name" placeholder="Enter name" />
+        <input type="text" v-model="newProduce.name" placeholder="Enter name" required />
 
         <!-- Produce Type Dropdown -->
-        <select v-model="newProduce.type">
+        <select v-model="newProduce.type" required>
           <option disabled value="">Select Produce Type</option>
           <option v-for="type in produceTypes" :key="type" :value="type">
             {{ type }}
@@ -40,13 +40,12 @@
 
         <!-- Buttons -->
         <div class="button-group">
-          <button @click="closeModal">Cancel</button>
-          <button @click="addProduce">Add</button>
+          <button type="button" @click="closeModal">Cancel</button>
+          <button type="submit">Add</button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
-
 </template>
 
 <script setup>
@@ -56,7 +55,7 @@ import produceService from '@/api/produceService'
 
 const produceItems = ref([{ id: 1, name: 'fetching', image: land }])
 const showModal = ref(false)
-const newProduce = ref({ name: '', type: '', image: null })
+const newProduce = ref({ name: '', type: '', image: null, imagePreview: null })
 const produceTypes = ref(['Fruit', 'Vegetable', 'Grain', 'Dairy', 'Meat'])
 const fileInput = ref(null)
 
@@ -75,18 +74,31 @@ function openModal() {
 
 function closeModal() {
   showModal.value = false
-  newProduce.value = { name: '', type: '', image: null }
+  newProduce.value = { name: '', type: '', image: null, imagePreview: null }
 }
 
-function addProduce() {
+async function addProduce() {
   if (newProduce.value.name.trim() !== '' && newProduce.value.type) {
-    produceItems.value.push({
-      id: produceItems.value.length + 1,
-      name: newProduce.value.name,
-      type: newProduce.value.type,
-      image: newProduce.value.image || land
-    })
-    closeModal()
+    try {
+      const formData = new FormData()
+      formData.append('name', newProduce.value.name)
+      formData.append('type', newProduce.value.type.toLowerCase())
+
+      if (newProduce.value.image instanceof File) {
+        formData.append('image', newProduce.value.image)
+      }
+
+      const response = await produceService.addCustomProduce(formData)
+      console.log('Response:', response)
+      
+      if (response.data) {
+        produceItems.value.push(response.data)
+      }
+      
+      closeModal()
+    } catch (error) {
+      console.error('Error adding produce:', error)
+    }
   }
 }
 
@@ -97,9 +109,10 @@ function triggerFileInput() {
 function handleFileUpload(event) {
   const file = event.target.files[0]
   if (file) {
+    newProduce.value.image = file
     const reader = new FileReader()
     reader.onload = () => {
-      newProduce.value.image = reader.result
+      newProduce.value.imagePreview = reader.result
     }
     reader.readAsDataURL(file)
   }
@@ -109,6 +122,7 @@ onMounted(fetchProduce)
 </script>
 
 <style scoped>
+/* No major changes in styles */
 .produce-container {
   padding: 20px;
   color: #333;
@@ -120,14 +134,14 @@ onMounted(fetchProduce)
 }
 
 .produce-subtitle {
-  margin-bottom: 20px; /* Adds space before the cards */
+  margin-bottom: 20px;
   font-size: 16px;
 }
 
 .produce-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* Increases spacing */
+  gap: 15px;
   align-items: center;
 }
 
@@ -136,8 +150,8 @@ onMounted(fetchProduce)
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 120px; /* Increased size */
-  height: 140px; /* Increased size */
+  width: 120px;
+  height: 140px;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
@@ -145,19 +159,19 @@ onMounted(fetchProduce)
 }
 
 .produce-item img {
-  width: 90px; /* Slightly increased size */
+  width: 90px;
   height: 90px;
   object-fit: cover;
   border-radius: 5px;
 }
 
 .add-item {
-  width: 120px; /* Adjusted to match the card size */
+  width: 120px;
   height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px; /* Slightly larger */
+  font-size: 28px;
   border: 1px dashed #aaa;
   border-radius: 8px;
   background: #f8f8f8;
@@ -174,40 +188,38 @@ onMounted(fetchProduce)
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
-  justify-content: center; /* Center modal */
+  justify-content: center;
 }
 
 .modal-header {
-  background: #354833; /* Green */
+  background: #354833;
   color: white;
   padding: 12px 16px;
   text-align: center;
   font-size: 18px;
   font-weight: bold;
-  width: 100%; /* Ensure full width */
+  width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 .modal-content {
   background: white;
-  padding: 0; /* Remove extra padding */
+  padding: 0;
   border-radius: 10px;
   text-align: left;
   width: 320px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Ensures seamless blending of the header */
+  overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-
-
 /* Image Upload */
 .image-upload {
   width: 100%;
-  height: 150px;
+  height: 150px; /* Adjust height */
   border: 2px dashed #ccc;
   display: flex;
   align-items: center;
@@ -215,38 +227,39 @@ onMounted(fetchProduce)
   cursor: pointer;
   margin-bottom: 10px;
   background: #f9f9f9;
-}
-.modal-body {
-  padding: 20px; /* Add padding inside the modal */
-  display: flex;
-  flex-direction: column;
-  gap: 12px; /* Add spacing between elements */
+  overflow: hidden; /* Prevents overflow */
 }
 
-/* Image Upload */
-.image-upload {
-  padding: 10px; /* Ensure padding inside */
-  margin-bottom: 12px; /* Space before input */
+.image-upload img {
+  max-width: 100%;  /* Ensures image fits within container */
+  max-height: 100%; /* Ensures it does not exceed container */
+  object-fit: contain; /* Keeps aspect ratio */
+  border-radius: 5px; /* Optional: Adds rounded corners */
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Input and Dropdown */
 .modal-content input,
 .modal-content select {
   padding: 10px;
-  margin: 5px 0; /* Adjust spacing */
+  margin: 5px 0;
 }
 
-/* Buttons */
 /* Button Group */
 .button-group {
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: 10px;
   width: 100%;
 }
 
-/* Buttons */
 .button-group button {
-  flex: 1; /* Make buttons take equal width */
+  flex: 1;
   padding: 12px;
   border: none;
   color: white;
@@ -264,5 +277,4 @@ onMounted(fetchProduce)
 .button-group button:first-child {
   background: #3b3737;
 }
-
 </style>

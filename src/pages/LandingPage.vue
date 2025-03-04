@@ -9,13 +9,14 @@
         <div class="nav-item login" @click="showModal = true">Login</div>
       </div>
       <main>
-        <div class="title">Sustainable <span class="future">Future</span></div>
+        <div class="title">A Sustainable Future</div>
+        <div class="title"><span class="future">Starts Here</span></div>
         <div class="subheading">
-          SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-          tracking and real-time insights. Make every ingredient count—start managing smarter today
+          Suppl.ai helps you optimize your food supply, reduce waste, and save costs with smart
+          tracking and real-time insights. Make every ingredient count—start managing smarter today!
         </div>
         <h2 class="hook">
-          Help us help you optimize your supply now - <a href="#" class="hook">Contact Us!</a>
+          Help us help you optimize your supply now<a href="#" class="hook">Contact Us</a>
         </h2>
       </main>
     </div>
@@ -24,18 +25,18 @@
         <h2 class="section-title">Key Features</h2>
         <div class="feature-cards">
           <FeatureCard
-            label="Run"
-            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+            label="Smart Inventory Management"
+            text="Monitor your food supply in real time and prevent overstocking or shortages with automated tracking."
           />
 
           <FeatureCard
-            label="Run"
-            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+            label="AI-Powered Freshness Detection"
+            text="Capture an image of fresh produce, and our AI will classify its maturity to help manage shelf life effectively."
           />
 
           <FeatureCard
-            label="Run"
-            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+            label="Demand Forecaster"
+            text="Get AI-driven insights on when to restock supplies, reducing waste and ensuring efficiency."
           />
         </div>
       </div>
@@ -44,7 +45,13 @@
       <div class="features-container">
         <h2 class="section-title">Our Cause</h2>
         <div class="our-cause">
-          <p>OUR CAUSE TEXT HERE</p>
+          <p>Food waste is a growing problem, and businesses are among the biggest contributors. At SupplAI, we believe that smarter food supply management can make a difference.
+
+Our mission is to help businesses—restaurants, hotels, grocery stores, and food suppliers—reduce food waste by optimizing inventory, predicting restock needs, and ensuring every ingredient is used efficiently.
+
+By leveraging AI and real-time tracking, we empower businesses to cut costs, improve sustainability, and contribute to a future where food is valued, not wasted.
+
+Join us in making food supply smarter and more sustainable.</p>
         </div>
       </div>
     </div>
@@ -53,9 +60,8 @@
         <h2 class="section-title">About Us</h2>
         <div class="feature-cards">
           <p class="feature-text">
-            SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-            tracking and real-time insights. Make every ingredient count—start managing smarter
-            today
+            We are a team of student developers driven by a passion for innovation and problem-solving. 
+            Our goal is to create impactful solutions that address real-world challenges, with a focus on sustainability and efficiency.
           </p>
         </div>
       </div>
