@@ -124,7 +124,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import LogInModal from '@/components/LogInModal.vue'
+import LogInModal from '@/modals/LogInModal.vue'
 
 const showModal = ref(false)
 </script>
