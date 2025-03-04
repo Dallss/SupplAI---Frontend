@@ -5,7 +5,7 @@
       <p class="subtitle">View and manage your latest batches of produce.</p>
       <button class="add-batch-button" @click="showModal = true">Add Batch</button>
     </div>
-
+    
     <div class="table-container">
       <table>
         <thead>
@@ -29,14 +29,14 @@
       </table>
     </div>
 
-    <BatchModal
+    <BatchModal 
       v-if="showModal"
-      :show="showModal"
-      @close="showModal = false"
-      @add-batch="addBatch"
-      :batchNumber="nextBatchNumber"
+      :show="showModal" 
+      @close="showModal = false" 
+      @add-batch="addBatch" 
+      :batchNumber="nextBatchNumber" 
       :produceOptions="produceOptions"
-      :batchManagers="batchManagers"
+      :batchManagers="batchManagers" 
     />
 
     <div v-if="showBatchDetails" class="modal-backdrop" @click="showBatchDetails = false">
@@ -62,7 +62,7 @@
             <div class="detail-label">Added to Inventory On:</div>
             <div class="detail-value">{{ selectedBatch?.added_to_inventory_on }}</div>
           </div>
-
+          
           <h3>Produce Items</h3>
           <div class="produce-details-container">
             <div v-for="(produce, index) in batchProduces" :key="index" class="produce-detail-card">
@@ -79,9 +79,7 @@
                 <div class="detail-row">
                   <button class="update-button" @click="openUpdateModal(index)">Update</button>
                   <div class="delete-dropdown">
-                    <button class="delete-button" @click="toggleDeleteOptions(index)">
-                      Delete
-                    </button>
+                    <button class="delete-button" @click="toggleDeleteOptions(index)">Delete</button>
                     <div v-if="showDeleteOptions[index]" class="delete-options">
                       <button @click="markAsSpoiled(index)">Mark as Spoiled</button>
                       <button @click="deleteProduce(index)">Delete from Database</button>
@@ -95,20 +93,20 @@
       </div>
     </div>
 
-    <AddProduceModal
-      v-if="showAddProduceModal"
-      :show="showAddProduceModal"
-      :produceOptions="produceOptions"
-      @close="closeAddProduceModal"
-      @add-produce="handleAddProduce"
+    <AddProduceModal 
+    v-if="showAddProduceModal"
+    :show="showAddProduceModal" 
+    :produceOptions="produceOptions" 
+    @close="closeAddProduceModal" 
+    @add-produce="handleAddProduce" 
     />
 
-    <SelectProduceModal
+    <SelectProduceModal 
       v-if="showSelectProduceModal"
-      :show="showSelectProduceModal"
-      :produceOptions="produceOptions"
-      @close="closeSelectProduceModal"
-      @select-produce="handleSelectProduce"
+      :show="showSelectProduceModal" 
+      :produceOptions="produceOptions" 
+      @close="closeSelectProduceModal" 
+      @select-produce="handleSelectProduce" 
     />
 
     <div v-if="showUpdateModal" class="modal-backdrop" @click="showUpdateModal = false">
@@ -121,8 +119,10 @@
           <div class="modal-body-content">
             <div class="qr-section">
               <div class="qr-title">Update Produce Health</div>
-              <div class="qr-placeholder">QR</div>
-              <div v-if="scanAlert" class="scan-alert">{{ scanAlert }}</div>
+              <div class="qr-placeholder">
+                <vue-qrcode v-if="selectedProduce" :value="generateProduceQR(selectedProduce)" :options="{ width: 150, margin: 2 }" />
+              </div>
+                <div v-if="scanAlert" class="scan-alert">{{ scanAlert }}</div>
               <div class="details-row">
                 <div class="detail-label">Current Health:</div>
                 <div class="detail-value">{{ selectedProduce?.health }}</div>
@@ -166,65 +166,82 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import BatchModal from '@/modals/BatchModal.vue'
-import AddProduceModal from '@/modals/AddProduceModal.vue'
+import BatchModal from "@/components/BatchModal.vue"
+import AddProduceModal from "@/components/AddProduceModal.vue";
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+
+const generateProduceQR = (produce) => {
+  if (!selectedBatch.value) return '';
+
+  const baseURL = 'http://localhost:5173/app/camera';
+  const queryParams = new URLSearchParams({
+    produce: produce.name,
+    batch: selectedBatch.value.batch_id
+  }).toString();
+
+  return `${baseURL}?${queryParams}`;
+};
 
 interface Batch {
-  batch_id: string
-  batch_manager: string
-  added_to_inventory_on: string
-  produces?: ProduceItem[]
+  batch_id: string;
+  batch_manager: string;
+  added_to_inventory_on: string;
+  produces?: ProduceItem[];
 }
 
 interface ProduceItem {
-  name: string
-  stock: number
-  health: string
+  name: string;
+  stock: number;
+  health: string;
 }
 
-const showDeleteOptions = ref<boolean[]>([])
-const showBatchDeleteOptions = ref(false)
+const showDeleteOptions = ref<boolean[]>([]);
+const showBatchDeleteOptions = ref(false);
 
 const toggleDeleteOptions = (index: number) => {
-  showDeleteOptions.value = showDeleteOptions.value.map((show, i) => (i === index ? !show : false))
-}
+  showDeleteOptions.value = showDeleteOptions.value.map((show, i) => i === index ? !show : false);
+};
 
 const toggleBatchDeleteOptions = () => {
-  showBatchDeleteOptions.value = !showBatchDeleteOptions.value
-}
+  showBatchDeleteOptions.value = !showBatchDeleteOptions.value;
+};
 
 const markAsSpoiled = (index: number) => {
   if (selectedBatch.value) {
-    selectedBatch.value.produces?.forEach((produce) => {
-      produce.health = 'Spoiled'
-    })
+    selectedBatch.value.produces?.forEach(produce => {
+      produce.health = 'Spoiled';
+    });
   }
-  showDeleteOptions.value[index] = false
-}
+  showDeleteOptions.value[index] = false;
+};
 
 const markBatchAsSpoiled = () => {
   if (selectedBatch.value) {
-    selectedBatch.value.produces?.forEach((produce) => {
-      produce.health = 'Spoiled'
-    })
+    selectedBatch.value.produces?.forEach(produce => {
+      produce.health = 'Spoiled';
+    });
   }
-  showBatchDeleteOptions.value = false
-}
+  showBatchDeleteOptions.value = false;
+};
 
 interface ProduceOption {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
-const batches = ref<Batch[]>([])
+const batches = ref<Batch[]>([]) 
 const showModal = ref(false)
 const nextBatchNumber = ref(1)
 const produceOptions = ref<ProduceOption[]>([
   { id: 1, name: 'Apple' },
   { id: 2, name: 'Mango' },
-  { id: 3, name: 'Banana' },
+  { id: 3, name: 'Banana' }
 ])
-const batchManagers = ref<string[]>(['John Doe', 'Martin Lucas', 'Claire Santina'])
+const batchManagers = ref<string[]>([
+  'John Doe',
+  'Martin Lucas',
+  'Claire Santina'
+])
 
 const showBatchDetails = ref(false)
 const selectedBatch = ref<Batch | null>(null)
@@ -236,29 +253,29 @@ const stockSpent = ref(0)
 const stockWasted = ref(0)
 const scanAlert = ref('')
 
-const showSelectProduceModal = ref(false)
+const showSelectProduceModal = ref(false);
 
 const remainingStock = computed(() => {
   if (selectedProduce.value) {
-    return Math.max(selectedProduce.value.stock - stockSpent.value - stockWasted.value, 0)
+    return Math.max(selectedProduce.value.stock - stockSpent.value - stockWasted.value, 0);
   }
-  return 0
-})
+  return 0;
+});
 
 const updateHealth = () => {
   if (selectedProduce.value) {
-    selectedProduce.value.stock = remainingStock.value
-    scanAlert.value = 'Scanned Successfully'
+    selectedProduce.value.stock = remainingStock.value;
+    scanAlert.value = 'Scanned Successfully';
   }
-  showUpdateModal.value = false
-}
+  showUpdateModal.value = false;
+};
 
 const updateHealthFromQR = (health: string) => {
   if (selectedProduce.value) {
-    selectedProduce.value.health = health
-    scanAlert.value = 'Scanned Successfully'
+    selectedProduce.value.health = health;
+    scanAlert.value = 'Scanned Successfully';
   }
-}
+};
 
 watch([stockSpent, stockWasted], () => {
   if (selectedProduce) {
@@ -266,62 +283,62 @@ watch([stockSpent, stockWasted], () => {
   }
 })
 
-const showAddProduceModal = ref(false)
+const showAddProduceModal = ref(false);
 
 const openAddProduceModal = () => {
-  showAddProduceModal.value = true
-}
+  showAddProduceModal.value = true;
+};
 
 const closeAddProduceModal = () => {
-  showAddProduceModal.value = false
-}
+  showAddProduceModal.value = false;
+};
 
 const handleAddProduce = (produce: { name: string; stock: number }) => {
   if (selectedBatch.value) {
-    selectedBatch.value.produces?.push({
-      name: produce.name,
+    selectedBatch.value.produces?.push({ 
+      name: produce.name, 
       stock: produce.stock,
-      health: 'Fresh',
-    })
+      health: 'Fresh'
+    });
   }
-  closeAddProduceModal()
-}
+  closeAddProduceModal();
+};
 
 const fetchBatches = async () => {
   try {
-    console.log('Fetching batches...')
+    console.log('Fetching batches...') 
     // Using sample data instead of API call
     batches.value = [
       {
-        batch_id: 'Batch #1',
-        batch_manager: 'John Doe',
-        added_to_inventory_on: '2025-01-15',
+        batch_id: "Batch #1",
+        batch_manager: "John Doe",
+        added_to_inventory_on: "2025-01-15",
         produces: [
-          { name: 'Apple', stock: 10, health: 'Fresh' },
-          { name: 'Banana', stock: 5, health: 'Ripe' },
-        ],
+          { name: "Apple", stock: 10, health: "Fresh" },
+          { name: "Banana", stock: 5, health: "Ripe" }
+        ]
       },
       {
-        batch_id: 'Batch #2',
-        batch_manager: 'Jane Smith',
-        added_to_inventory_on: '2025-03-02',
+        batch_id: "Batch #2",
+        batch_manager: "Jane Smith",
+        added_to_inventory_on: "2025-03-02",
         produces: [
-          { name: 'Mango', stock: 8, health: 'Fresh' },
-          { name: 'Apple', stock: 3, health: 'Overripe' },
-        ],
+          { name: "Mango", stock: 8, health: "Fresh" },
+          { name: "Apple", stock: 3, health: "Overripe" }
+        ]
       },
       {
-        batch_id: 'Batch #3',
-        batch_manager: 'Alex Johnson',
-        added_to_inventory_on: '2025-03-02',
+        batch_id: "Batch #3",
+        batch_manager: "Alex Johnson",
+        added_to_inventory_on: "2025-03-02",
         produces: [
-          { name: 'Banana', stock: 12, health: 'Ripe' },
-          { name: 'Mango', stock: 2, health: 'Spoiled' },
-        ],
-      },
+          { name: "Banana", stock: 12, health: "Ripe" },
+          { name: "Mango", stock: 2, health: "Spoiled" }
+        ]
+      }
     ]
     nextBatchNumber.value = batches.value.length + 1
-
+    
     // Commented out API call for now
     /*
     const response = await fetch('http://127.0.0.1:8000/api/inventory/get_batches/')
@@ -345,7 +362,7 @@ const fetchProduceOptions = async () => {
   try {
     console.log('Fetching produce options...')
     // Sample data is already set, so we don't need to fetch from API
-
+    
     // Commented out API call for now
     /*
     const response = await fetch('http://127.0.0.1:8000/api/inventory/get_produce_options/')
@@ -365,75 +382,76 @@ const fetchProduceOptions = async () => {
 }
 
 const addBatch = (newBatch: any) => {
-  const currentDate = new Date().toISOString().split('T')[0]
-
+  const currentDate = new Date().toISOString().split('T')[0];
+  
   const formattedBatch: Batch = {
     batch_id: `Batch #${nextBatchNumber.value}`,
-    batch_manager: newBatch.batchManager || 'Current User',
+    batch_manager: newBatch.batchManager || "Current User",
     added_to_inventory_on: currentDate,
-    produces: newBatch.produces,
-  }
-
-  batches.value.push(formattedBatch)
-  nextBatchNumber.value++
-  showModal.value = false
+    produces: newBatch.produces
+  };
+  
+  batches.value.push(formattedBatch);
+  nextBatchNumber.value++;
+  showModal.value = false;
 }
 
 const viewBatchDetails = (batch: Batch) => {
-  selectedBatch.value = batch
-  batchProduces.value = batch.produces || []
-  showBatchDetails.value = true
-  showDeleteOptions.value = new Array(batchProduces.value.length).fill(false)
-  showBatchDeleteOptions.value = false
+  selectedBatch.value = batch;
+  batchProduces.value = batch.produces || [];
+  showBatchDetails.value = true;
+  showDeleteOptions.value = new Array(batchProduces.value.length).fill(false);
+  showBatchDeleteOptions.value = false;
 }
 
 const deleteBatch = (batchId: string | undefined) => {
   if (batchId) {
-    batches.value = batches.value.filter((batch) => batch.batch_id !== batchId)
-    showBatchDetails.value = false
+    batches.value = batches.value.filter(batch => batch.batch_id !== batchId);
+    showBatchDetails.value = false;
   }
 }
 
 const openUpdateModal = (index: number) => {
-  selectedProduce.value = batchProduces.value[index]
-  stockSpent.value = 0
-  stockWasted.value = 0
-  showUpdateModal.value = true
+  selectedProduce.value = batchProduces.value[index];
+  stockSpent.value = 0;
+  stockWasted.value = 0;
+  showUpdateModal.value = true;
 }
 
 const deleteProduce = (index: number) => {
-  batchProduces.value.splice(index, 1)
+  batchProduces.value.splice(index, 1);
 }
 
 const getHealthClass = (health: string): string => {
   switch (health) {
     case 'Fresh':
-      return 'health-fresh'
+      return 'health-fresh';
     case 'Spoiled':
-      return 'health-spoiled'
+      return 'health-spoiled';
     default:
-      return ''
+      return '';
   }
 }
 
 const openSelectProduceModal = () => {
-  showSelectProduceModal.value = true
-}
+  showSelectProduceModal.value = true;
+};
 
 const closeSelectProduceModal = () => {
-  showSelectProduceModal.value = false
-}
+  showSelectProduceModal.value = false;
+};
 
 const handleSelectProduce = (produceName: string) => {
   if (selectedBatch.value) {
-    selectedBatch.value.produces?.push({
-      name: produceName,
+    selectedBatch.value.produces?.push({ 
+      name: produceName, 
       stock: 1,
       health: 'Fresh',
-    })
+      batch_id: selectedBatch.value.batch_id || "Unknown Batch" // Ensure batch_id is added
+    });
   }
-  closeSelectProduceModal()
-}
+  closeSelectProduceModal();
+};  
 
 onMounted(() => {
   fetchBatches()
@@ -478,7 +496,7 @@ h1 {
 }
 
 .add-batch-button:hover {
-  background-color: #445d41;
+  background-color: #445D41;
 }
 
 .table-container {
@@ -535,7 +553,7 @@ tbody tr:last-child td {
 }
 
 .view-button:hover {
-  background-color: #445d41;
+  background-color: #445D41;
 }
 
 .delete-button {
@@ -738,7 +756,7 @@ h3 {
 }
 
 .confirm-button:hover {
-  background-color: #445d41;
+  background-color: #445D41;
 }
 
 .modal-footer {
@@ -797,6 +815,6 @@ h3 {
 }
 
 .add-produce-button:hover {
-  background-color: #445d41;
+  background-color: #445D41;
 }
 </style>
