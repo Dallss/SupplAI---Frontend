@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import AddEmployeeModal from "@/components/AddEmployeeModal.vue"
+import AddEmployeeModal from '@/modals/AddEmployeeModal.vue'
 
 const employees = ref([
-  { name: 'John Doe', branch: 'New York', position: 'Manager', username: 'johndoe', dateAdded: '2025-03-02' },
-  { name: 'Jane Smith', branch: 'Los Angeles', position: 'Developer', username: 'janesmith', dateAdded: '2025-03-02' }
+  {
+    name: 'John Doe',
+    branch: 'New York',
+    position: 'Manager',
+    username: 'johndoe',
+    dateAdded: '2025-03-02',
+  },
+  {
+    name: 'Jane Smith',
+    branch: 'Los Angeles',
+    position: 'Developer',
+    username: 'janesmith',
+    dateAdded: '2025-03-02',
+  },
 ])
 
 const showModal = ref(false)
@@ -14,7 +26,7 @@ const selectedEmployee = ref(null)
 const employeeToUpdate = ref({
   name: '',
   branch: '',
-  position: ''
+  position: '',
 })
 
 const addEmployee = (newEmployee) => {
@@ -23,7 +35,7 @@ const addEmployee = (newEmployee) => {
     branch: newEmployee.branch,
     position: newEmployee.position,
     username: newEmployee.username,
-    dateAdded: new Date().toISOString().split('T')[0]
+    dateAdded: new Date().toISOString().split('T')[0],
   })
   showModal.value = false
 }
@@ -38,7 +50,7 @@ const closeDetailsModal = () => {
 }
 
 const deleteEmployee = () => {
-  employees.value = employees.value.filter(emp => emp !== selectedEmployee.value)
+  employees.value = employees.value.filter((emp) => emp !== selectedEmployee.value)
   showDetailsModal.value = false
 }
 
@@ -52,7 +64,7 @@ const closeUpdateModal = () => {
 }
 
 const updateEmployee = () => {
-  const index = employees.value.findIndex(emp => emp.username === selectedEmployee.value.username)
+  const index = employees.value.findIndex((emp) => emp.username === selectedEmployee.value.username)
   if (index !== -1) {
     employees.value[index] = { ...employeeToUpdate.value }
   }
@@ -69,7 +81,7 @@ const updateEmployee = () => {
         <p class="subtitle">View the list of your employees.</p>
         <button class="add-employee-button" @click="showModal = true">Add Employee</button>
       </div>
-      
+
       <div class="employees-table">
         <div class="table-header">
           <div class="header-name">Name</div>
@@ -77,11 +89,9 @@ const updateEmployee = () => {
           <div class="header-position">Position</div>
           <div class="header-actions">Actions</div>
         </div>
-        
+
         <div class="table-body">
-          <div v-if="employees.length === 0" class="empty-state">
-            No employee data available
-          </div>
+          <div v-if="employees.length === 0" class="empty-state">No employee data available</div>
           <div v-else v-for="(employee, index) in employees" :key="index" class="table-row">
             <div class="employee-name">{{ employee.name }}</div>
             <div class="employee-branch">{{ employee.branch }}</div>
@@ -164,8 +174,8 @@ const updateEmployee = () => {
 
 h1 {
   color: #2c3e50;
-  font-size: 1.75rem; 
-  margin-bottom: 0.3125rem; 
+  font-size: 1.75rem;
+  margin-bottom: 0.3125rem;
   font-weight: 600;
   text-align: left;
 }
@@ -181,7 +191,7 @@ h1 {
   color: #666;
   margin: 0;
   text-align: left;
-  font-size: 0.875rem; 
+  font-size: 0.875rem;
 }
 
 .add-employee-button {
@@ -200,7 +210,7 @@ h1 {
 .employees-table {
   width: 100%;
   background-color: white;
-  border-radius: 0.5rem; 
+  border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.05);
 }
@@ -209,18 +219,21 @@ h1 {
   display: flex;
   background-color: #354833;
   color: white;
-  padding: 0.9375rem 1.25rem; 
+  padding: 0.9375rem 1.25rem;
   font-weight: 500;
 }
 
-.header-name, .header-branch, .header-position, .header-actions {
+.header-name,
+.header-branch,
+.header-position,
+.header-actions {
   flex: 1;
   text-align: center;
   font-weight: 600;
 }
 
 .table-body {
-  max-height: 25rem; 
+  max-height: 25rem;
   overflow-y: auto;
 }
 
@@ -232,15 +245,18 @@ h1 {
 
 .table-row {
   display: flex;
-  padding: 0.9375rem 1.25rem; 
-  border-bottom: 0.0625rem solid #eee; 
+  padding: 0.9375rem 1.25rem;
+  border-bottom: 0.0625rem solid #eee;
 }
 
 .table-row:last-child {
   border-bottom: none;
 }
 
-.employee-name, .employee-branch, .employee-position, .employee-actions {
+.employee-name,
+.employee-branch,
+.employee-position,
+.employee-actions {
   flex: 1;
   text-align: center;
   color: #000;
@@ -277,7 +293,7 @@ h1 {
   border-radius: 0.5rem;
   width: 90%;
   max-width: 500px;
-  color:#000;
+  color: #000;
   position: relative;
 }
 

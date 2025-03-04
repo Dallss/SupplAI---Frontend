@@ -18,31 +18,19 @@
         </div>
 
         <div class="produces-container">
-          <div 
-            v-for="(produce, index) in produces" 
-            :key="index" 
-            class="produce-item"
-          >
+          <div v-for="(produce, index) in produces" :key="index" class="produce-item">
             <div class="produce-card">
               <div class="produce-name">{{ produce.name }}</div>
-              
+
               <div class="input-row">
                 <div class="input-group">
                   <div class="label">Stock:</div>
-                  <input 
-                    type="number" 
-                    v-model="produce.stock" 
-                    class="stock-input"
-                    min="0"
-                  />
+                  <input type="number" v-model="produce.stock" class="stock-input" min="0" />
                 </div>
-                
+
                 <div class="input-group">
                   <div class="label">Health:</div>
-                  <select 
-                    v-model="produce.health" 
-                    class="health-select"
-                  >
+                  <select v-model="produce.health" class="health-select">
                     <option value="Fresh">Fresh</option>
                     <option value="Ripe">Ripe</option>
                     <option value="Overripe">Overripe</option>
@@ -68,82 +56,82 @@
     </div>
   </div>
 
-  <SelectProduceModal 
+  <SelectProduceModal
     v-if="showSelectProduceModal"
-    :show="showSelectProduceModal" 
-    :produceOptions="produceOptions" 
-    @close="closeSelectProduceModal" 
-    @select-produce="handleSelectProduce" 
+    :show="showSelectProduceModal"
+    :produceOptions="produceOptions"
+    @close="closeSelectProduceModal"
+    @select-produce="handleSelectProduce"
   />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import SelectProduceModal from "@/components/SelectProduceModal.vue"
+import SelectProduceModal from '@/modals/SelectProduceModal.vue'
 
 interface Produce {
-  name: string;
-  stock: number;
-  health: string;
+  name: string
+  stock: number
+  health: string
 }
 
 interface ProduceOption {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 const props = defineProps<{
-  show: boolean;
-  batchNumber: number;
-  produceOptions: ProduceOption[];
-  batchManagers: string[];
-}>();
+  show: boolean
+  batchNumber: number
+  produceOptions: ProduceOption[]
+  batchManagers: string[]
+}>()
 
-const emit = defineEmits(['close', 'add-batch']);
+const emit = defineEmits(['close', 'add-batch'])
 
-const produces = ref<Produce[]>([]);
-const showSelectProduceModal = ref(false);
-const selectedBatchManager = ref<string>('');
+const produces = ref<Produce[]>([])
+const showSelectProduceModal = ref(false)
+const selectedBatchManager = ref<string>('')
 
 const addProduce = (produceName: string) => {
-  produces.value.push({ 
-    name: produceName, 
+  produces.value.push({
+    name: produceName,
     stock: 1,
-    health: 'Fresh'
-  });
-};
+    health: 'Fresh',
+  })
+}
 
 const submitBatch = () => {
-  const validProduces = produces.value.filter(p => p.name.trim() !== '');
+  const validProduces = produces.value.filter((p) => p.name.trim() !== '')
 
   if (validProduces.length === 0) {
-    alert('Please add at least one produce item');
-    return;
+    alert('Please add at least one produce item')
+    return
   }
 
   if (!selectedBatchManager.value) {
-    alert('Please select a batch manager');
-    return;
+    alert('Please select a batch manager')
+    return
   }
 
   emit('add-batch', {
     produces: validProduces,
-    batchManager: selectedBatchManager.value
-  });
-};
+    batchManager: selectedBatchManager.value,
+  })
+}
 
 const openSelectProduceModal = () => {
-  showSelectProduceModal.value = true;
-};
+  showSelectProduceModal.value = true
+}
 
 const closeSelectProduceModal = () => {
-  showSelectProduceModal.value = false;
-};
+  showSelectProduceModal.value = false
+}
 
 const handleSelectProduce = (produceName: string) => {
-  addProduce(produceName);
-  closeSelectProduceModal();
-};
+  addProduce(produceName)
+  closeSelectProduceModal()
+}
 </script>
 
 <style scoped>
@@ -217,7 +205,8 @@ const handleSelectProduce = (produceName: string) => {
   margin-top: 1rem;
 }
 
-.produce-item, .add-produce-card {
+.produce-item,
+.add-produce-card {
   width: calc(50% - 0.5rem);
   min-width: 200px;
 }
@@ -323,6 +312,6 @@ const handleSelectProduce = (produceName: string) => {
 }
 
 .confirm-button:hover {
-  background-color: #445D41;
+  background-color: #445d41;
 }
 </style>
