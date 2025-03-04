@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const showModal = ref(false);
+const username = ref('');
+const password = ref('');
+
+function login() {
+  alert(`Logging in as ${username.value}`);
+  showModal.value = false;
+}
+</script>
+
 <template>
   <div class="container">
     <img src="@/assets/landing_bg.png" alt="" class="bg" />
@@ -19,8 +32,87 @@
         </h2>
       </main>
     </div>
-    <div class="section our-cause" id="our-cause"></div>
-    <div class="section about-us" id="about-us"></div>
+    <div class="section key-features" id="key-features">
+      <div class="features-container">
+        <h2 class="section-title">Key Features</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section our-cause" id="our-cause">
+      <div class="features-container">
+        <h2 class="section-title">Our Cause</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section about-us" id="about-us">
+      <div class="features-container">
+        <h2 class="section-title">About Us</h2>
+        <div class="feature-cards">
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-header">
+              <span class="feature-label">Run</span>
+            </div>
+            <p class="feature-text">
+              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
@@ -37,24 +129,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showModal: false,
-      username: '',
-      password: '',
-    }
-  },
-  methods: {
-    login() {
-      alert(`Logging in as ${this.username}`)
-      this.showModal = false
-    },
-  },
-}
-</script>
-
 <style scoped>
 .container {
   display: flex;
@@ -64,7 +138,12 @@ export default {
   min-height: 100vh;
   width: 100vw;
   background-color: #354833;
+  scroll-snap-type: y mandatory; /* Enable scroll snapping */
+  overflow-y: scroll; /* Enable vertical scrolling */
+  margin: 0; /* Ensure no margin on the container */
+  padding: 0; /* Ensure no padding on the container */
 }
+
 .section {
   height: 100vh;
   width: 100%;
@@ -72,12 +151,17 @@ export default {
   align-items: center;
   justify-content: center;
   z-index: 2;
+  scroll-snap-align: start; /* Snap to the start of each section */
+  margin: 0; /* Ensure no margin on the sections */
+  padding: 0; /* Ensure no padding on the sections */
 }
 
 .home {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin: 0; /* Ensure no margin on the home section */
+  padding: 0; /* Ensure no padding on the home section */
 }
 
 .nav {
@@ -86,15 +170,16 @@ export default {
   height: 10vh;
   min-height: 50px;
   align-items: center;
+  margin: 0; /* Ensure no margin on the nav */
+  padding: 0; /* Ensure no padding on the nav */
 }
 
 .bg {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%; /* Full width */
+  width: 100%;
   height: auto;
-  background: url('@/assets/bg-image.jpg') no-repeat center / cover;
 }
 
 .nav-item {
@@ -126,6 +211,8 @@ main {
   flex-grow: 1;
   width: 100%;
   justify-items: center;
+  margin: 0; /* Ensure no margin on the main */
+  padding: 0; /* Ensure no padding on the main */
 }
 
 .title {
@@ -163,6 +250,84 @@ a.hook {
   text-decoration: underline;
 }
 
+.key-features {
+  background-color: #354833;
+  color: white;
+  flex-direction: column;
+  top: -10vh;
+}
+
+.features-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.feature-cards {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 2rem;
+}
+
+.feature-card {
+  background-color: #354833;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 300px;
+  position: relative;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 30%;
+}
+
+.feature-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.feature-label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-left: 7.85rem;
+}
+
+/* .feature-bracket {
+  position: relative;
+  width: 100px;
+  height: 50px;
+}
+
+.feature-bracket::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-top: 10px solid white;
+  border-right: 10px solid white;
+  border-radius: 0 10px 0 0;
+  margin-left: 12rem;
+} */
+
+.feature-text {
+  font-size: 0.9rem;
+  text-align: center;
+  align-items: center;
+  color: white;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -186,7 +351,6 @@ a.hook {
   display: flex;
   flex-direction: column;
   gap: 15px;
-
 }
 
 .modal-title {
