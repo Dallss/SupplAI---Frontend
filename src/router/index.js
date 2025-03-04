@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '@/pages/LandingPage.vue'
 import AppPage from '@/pages/AppPage.vue'
+import Cam from '@/pages/CameraPage.vue'
 
 import Dashboard from '@/components/DashboardComponent.vue'
 import Employees from '@/components/EmployeesComponent.vue'
@@ -25,6 +26,7 @@ const router = createRouter({
         { path: 'employees', component: Employees },
         { path: 'inventory', component: Inventory },
         { path: 'produce', component: Produce },
+        { path: 'camera', component: Cam },
       ],
     },
   ],

@@ -17,6 +17,9 @@
         <router-link to="/app/employees" class="nav-link">
           <Feather type="user" /> EMPLOYEES
         </router-link>
+        <router-link to="/app/camera" class="nav-link">
+          <Feather type="camera" /> CAMERA  <!-- ✅ Added Camera Link -->
+        </router-link>
       </nav>
     </aside>
 
