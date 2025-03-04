@@ -149,6 +149,7 @@ a {
   width: 100%;
   height: auto;
   object-fit: cover;
+  filter: saturate(0.5);
 }
 
 .nav-item {
