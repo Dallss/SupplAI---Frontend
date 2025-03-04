@@ -166,8 +166,8 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import BatchModal from "@/components/BatchModal.vue"
-import AddProduceModal from "@/components/AddProduceModal.vue";
+import BatchModal from "@/modals/BatchModal.vue"
+import AddProduceModal from "@/modals/AddProduceModal.vue";
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 
 const generateProduceQR = (produce) => {
