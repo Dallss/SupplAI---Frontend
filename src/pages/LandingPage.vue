@@ -66,23 +66,23 @@ function login() {
       </div>
     </div>
     <div class="section our-cause" id="our-cause">
-      <div class="features-container">
-        <h2 class="section-title">Our Cause</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
+      <div class="features-container2">
+        <h2 class="section-title2">Our Cause</h2>
+        <div class="feature-cards2">
+          <div class="feature-card2">
+            <div class="feature-header2">
+              <span class="feature-label2">Run</span>
             </div>
-            <p class="feature-text">
+            <p class="feature-text2">
               SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
             </p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
+          <div class="feature-card2">
+            <div class="feature-header2">
+              <span class="feature-label2">Run</span>
             </div>
-            <p class="feature-text">
+            <p class="feature-text2">
               SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
             </p>
           </div>
@@ -90,23 +90,23 @@ function login() {
       </div>
     </div>
     <div class="section about-us" id="about-us">
-      <div class="features-container">
-        <h2 class="section-title">About Us</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
+      <div class="features-container3">
+        <h2 class="section-title3">About Us</h2>
+        <div class="feature-cards3">
+          <div class="feature-card3">
+            <div class="feature-header3">
+              <span class="feature-label3">Run</span>
             </div>
-            <p class="feature-text">
+            <p class="feature-text3">
               SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
             </p>
           </div>
           
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
+          <div class="feature-card3">
+            <div class="feature-header3">
+              <span class="feature-label3">Run</span>
             </div>
-            <p class="feature-text">
+            <p class="feature-text3">
               SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
             </p>
           </div>
@@ -211,8 +211,6 @@ main {
   flex-grow: 1;
   width: 100%;
   justify-items: center;
-  margin: 0; /* Ensure no margin on the main */
-  padding: 0; /* Ensure no padding on the main */
 }
 
 .title {
@@ -265,7 +263,37 @@ a.hook {
   align-items: center;
 }
 
+.features-container3 {
+  width: 100%;
+  max-width: 200rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.features-container2 {
+  width: 100%;
+  max-width: 200rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .section-title {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.section-title3 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.section-title2 {
   font-size: 2rem;
   margin-bottom: 3rem;
   text-align: center;
@@ -290,6 +318,42 @@ a.hook {
   width: 30%;
 }
 
+.feature-cards3 {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 0.2rem;
+}
+
+.feature-card3 {
+  background-color: #354833;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 300px;
+  position: relative;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 40%;
+}
+
+.feature-cards2 {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 0.2rem;
+}
+
+.feature-card2 {
+  background-color: #354833;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 300px;
+  position: relative;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 40%;
+}
+
 .feature-header {
   display: flex;
   align-items: center;
@@ -302,6 +366,34 @@ a.hook {
   color: white;
   text-align: center;
   margin-left: 7.85rem;
+}
+
+.feature-header3 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.feature-label3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-left: 15rem;
+}
+
+.feature-header2 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.feature-label2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-left: 14rem;
 }
 
 /* .feature-bracket {
@@ -322,6 +414,20 @@ a.hook {
 } */
 
 .feature-text {
+  font-size: 0.9rem;
+  text-align: center;
+  align-items: center;
+  color: white;
+}
+
+.feature-text3 {
+  font-size: 0.9rem;
+  text-align: center;
+  align-items: center;
+  color: white;
+}
+
+.feature-text2 {
   font-size: 0.9rem;
   text-align: center;
   align-items: center;
