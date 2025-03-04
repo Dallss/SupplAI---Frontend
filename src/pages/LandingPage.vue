@@ -23,66 +23,28 @@
       <div class="features-container">
         <h2 class="section-title">Key Features</h2>
         <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
+          <FeatureCard
+            label="Run"
+            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+          />
 
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
+          <FeatureCard
+            label="Run"
+            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+          />
 
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
+          <FeatureCard
+            label="Run"
+            text="SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today."
+          />
         </div>
       </div>
     </div>
     <div class="section our-cause" id="our-cause">
       <div class="features-container">
         <h2 class="section-title">Our Cause</h2>
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
+        <div class="our-cause">
+          <p>OUR CAUSE TEXT HERE</p>
         </div>
       </div>
     </div>
@@ -90,27 +52,11 @@
       <div class="features-container">
         <h2 class="section-title">About Us</h2>
         <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-              tracking and real-time insights. Make every ingredient count—start managing smarter
-              today
-            </p>
-          </div>
+          <p class="feature-text">
+            SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
+            tracking and real-time insights. Make every ingredient count—start managing smarter
+            today
+          </p>
         </div>
       </div>
     </div>
@@ -125,22 +71,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import LogInModal from '@/modals/LogInModal.vue'
+import FeatureCard from '@/components/FeatureCardComponent.vue'
 
 const showModal = ref(false)
 </script>
 
 <style scoped>
-
 html {
   max-width: 100%;
+  scrollbar-gutter: stable both-edges;
 }
 
 body {
   /* box-sizing: border-box; */
   margin: 0;
   padding: 0;
-  overflow-x:hidden;
-
+  overflow-x: hidden;
 }
 
 a {
@@ -156,37 +102,28 @@ a {
   align-items: center;
   min-height: 100vh;
   width: 100vw;
-  /* max-width: 100%; */
+  max-width: 100%;
   background-color: #354833;
   background-size: cover;
   scroll-snap-type: y mandatory; /* Enable scroll snapping */
   overflow-y: scroll; /* Enable vertical scrolling */
-  margin: 0; /* Ensure no margin on the container */
-  padding: 0; /* Ensure no padding on the container */
   scrollbar-width: none;
+  position: relative;
+  left: calc((100vw - 100%) / 2);
 }
-
-
 
 .section {
   height: 100vh;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
-  scroll-snap-align: start; /* Snap to the start of each section */
-  margin: 0; /* Ensure no margin on the sections */
-  padding: 0; /* Ensure no padding on the sections */
 }
 
 .home {
-  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 0; /* Ensure no margin on the home section */
-  padding: 0; /* Ensure no padding on the home section */
 }
 
 .nav {
@@ -240,8 +177,8 @@ a {
 
 main {
   /* flex-grow: 1; */
-  /* width: 100%;
-  justify-items: center; */
+  /* width: 100%; */
+  justify-items: center;
   /* margin: 0; Ensure no margin on the main */
   /* padding: 0; Ensure no padding on the main */
 }
@@ -289,8 +226,6 @@ a.hook {
 }
 
 .features-container {
-  width: 100%;
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -305,96 +240,22 @@ a.hook {
 }
 
 .feature-cards {
+  width: 90%;
   display: flex;
   justify-content: space-around;
-  width: 100%;
   gap: 2rem;
-}
-
-.feature-card {
-  background-color: #81907f;
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 300px;
-  position: relative;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 30%;
-}
-
-.feature-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.feature-label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  margin-left: 7.85rem;
-}
-
-.feature-text {
-  font-size: 0.9rem;
-  text-align: center;
-  align-items: center;
-  color: white;
 }
 
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
-
-.modal {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 350px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.modal-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.modal-button {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
 }
 </style>
