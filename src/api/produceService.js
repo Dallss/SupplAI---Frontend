@@ -18,7 +18,8 @@ export default {
   },
 
   addCustomProduce(produceData) {
-    return api.post('/produce/add_produce/', produceData) // Calls `add_produce` action
+    produceData.type = produceData.type.toLowerCase();
+    return api.post('/produce/add_Produce/', produceData) // Calls `add_produce` action
   },
 
   update(id, produceData) {

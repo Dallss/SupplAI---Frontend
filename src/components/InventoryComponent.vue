@@ -119,8 +119,10 @@
           <div class="modal-body-content">
             <div class="qr-section">
               <div class="qr-title">Update Produce Health</div>
-              <div class="qr-placeholder">QR</div>
-              <div v-if="scanAlert" class="scan-alert">{{ scanAlert }}</div>
+              <div class="qr-placeholder">
+                <vue-qrcode v-if="selectedProduce" :value="generateProduceQR(selectedProduce)" :options="{ width: 150, margin: 2 }" />
+              </div>
+                <div v-if="scanAlert" class="scan-alert">{{ scanAlert }}</div>
               <div class="details-row">
                 <div class="detail-label">Current Health:</div>
                 <div class="detail-value">{{ selectedProduce?.health }}</div>
@@ -164,8 +166,21 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import BatchModal from "@/components/BatchModal.vue"
-import AddProduceModal from "@/components/AddProduceModal.vue";
+import BatchModal from "@/modals/BatchModal.vue"
+import AddProduceModal from "@/modals/AddProduceModal.vue";
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+
+const generateProduceQR = (produce) => {
+  if (!selectedBatch.value) return '';
+
+  const baseURL = 'http://localhost:5173/app/camera';
+  const queryParams = new URLSearchParams({
+    produce: produce.name,
+    batch: selectedBatch.value.batch_id
+  }).toString();
+
+  return `${baseURL}?${queryParams}`;
+};
 
 interface Batch {
   batch_id: string;
@@ -431,11 +446,12 @@ const handleSelectProduce = (produceName: string) => {
     selectedBatch.value.produces?.push({ 
       name: produceName, 
       stock: 1,
-      health: 'Fresh'
+      health: 'Fresh',
+      batch_id: selectedBatch.value.batch_id || "Unknown Batch" // Ensure batch_id is added
     });
   }
   closeSelectProduceModal();
-};
+};  
 
 onMounted(() => {
   fetchBatches()

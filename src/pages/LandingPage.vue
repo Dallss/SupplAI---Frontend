@@ -1,16 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-
-const showModal = ref(false);
-const username = ref('');
-const password = ref('');
-
-function login() {
-  alert(`Logging in as ${username.value}`);
-  showModal.value = false;
-}
-</script>
-
 <template>
   <div class="container">
     <img src="@/assets/landing_bg.png" alt="" class="bg" />
@@ -22,13 +9,14 @@ function login() {
         <div class="nav-item login" @click="showModal = true">Login</div>
       </div>
       <main>
-        <div class="title">Sustainable <span class="future">Future</span></div>
+        <div class="title">A Sustainable Future</div>
+        <div class="title"><span class="future">Starts Here</span></div>
         <div class="subheading">
-          SuplAI helps you optimize your food supply, reduce waste, and save costs with smart
-          tracking and real-time insights. Make every ingredient count—start managing smarter today
+          Suppl.ai helps you optimize your food supply, reduce waste, and save costs with smart
+          tracking and real-time insights. Make every ingredient count—start managing smarter today!
         </div>
         <h2 class="hook">
-          Help us help you optimize your supply now - <a href="#" class="hook">Contact Us!</a>
+          Help us help you optimize your supply now<a href="#" class="hook">Contact Us</a>
         </h2>
       </main>
     </div>
@@ -36,100 +24,83 @@ function login() {
       <div class="features-container">
         <h2 class="section-title">Key Features</h2>
         <div class="feature-cards">
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
-          
-          <div class="feature-card">
-            <div class="feature-header">
-              <span class="feature-label">Run</span>
-            </div>
-            <p class="feature-text">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
+          <FeatureCard
+            label="Smart Inventory Management"
+            text="Monitor your food supply in real time and prevent overstocking or shortages with automated tracking."
+          />
+
+          <FeatureCard
+            label="AI-Powered Freshness Detection"
+            text="Capture an image of fresh produce, and our AI will classify its maturity to help manage shelf life effectively."
+          />
+
+          <FeatureCard
+            label="Demand Forecaster"
+            text="Get AI-driven insights on when to restock supplies, reducing waste and ensuring efficiency."
+          />
         </div>
       </div>
     </div>
     <div class="section our-cause" id="our-cause">
-      <div class="features-container2">
-        <h2 class="section-title2">Our Cause</h2>
-        <div class="feature-cards2">
-          <div class="feature-card2">
-            <div class="feature-header2">
-              <span class="feature-label2">Run</span>
-            </div>
-            <p class="feature-text2">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
-          
-          <div class="feature-card2">
-            <div class="feature-header2">
-              <span class="feature-label2">Run</span>
-            </div>
-            <p class="feature-text2">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
+      <div class="features-container">
+        <h2 class="section-title">Our Cause</h2>
+        <div class="our-cause">
+          <p>Food waste is a growing problem, and businesses are among the biggest contributors. At SupplAI, we believe that smarter food supply management can make a difference.
+
+Our mission is to help businesses—restaurants, hotels, grocery stores, and food suppliers—reduce food waste by optimizing inventory, predicting restock needs, and ensuring every ingredient is used efficiently.
+
+By leveraging AI and real-time tracking, we empower businesses to cut costs, improve sustainability, and contribute to a future where food is valued, not wasted.
+
+Join us in making food supply smarter and more sustainable.</p>
         </div>
       </div>
     </div>
     <div class="section about-us" id="about-us">
-      <div class="features-container3">
-        <h2 class="section-title3">About Us</h2>
-        <div class="feature-cards3">
-          <div class="feature-card3">
-            <div class="feature-header3">
-              <span class="feature-label3">Run</span>
-            </div>
-            <p class="feature-text3">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
-          
-          <div class="feature-card3">
-            <div class="feature-header3">
-              <span class="feature-label3">Run</span>
-            </div>
-            <p class="feature-text3">
-              SuplAI helps you optimize your food supply, reduce waste, and save costs with smart tracking and real-time insights. Make every ingredient count—start managing smarter today
-            </p>
-          </div>
+      <div class="features-container">
+        <h2 class="section-title">About Us</h2>
+        <div class="feature-cards">
+          <p class="feature-text">
+            We are a team of student developers driven by a passion for innovation and problem-solving. 
+            Our goal is to create impactful solutions that address real-world challenges, with a focus on sustainability and efficiency.
+          </p>
         </div>
       </div>
     </div>
 
     <!-- modal -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
-      <div class="modal">
-        <h2 class="modal-title">Login</h2>
-        <input type="text" v-model="username" class="modal-input" placeholder="Username" />
-        <input type="password" v-model="password" class="modal-input" placeholder="Password" />
-        <div class="modal-actions">
-          <button @click="login" class="modal-button modal-login">Login</button>
-          <button @click="showModal = false" class="modal-button modal-cancel">Cancel</button>
-        </div>
-      </div>
+      <LogInModal @closeModal="showModal = false" />
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import LogInModal from '@/modals/LogInModal.vue'
+import FeatureCard from '@/components/FeatureCardComponent.vue'
+
+const showModal = ref(false)
+</script>
+
 <style scoped>
+html {
+  max-width: 100%;
+  scrollbar-gutter: stable both-edges;
+}
+
+body {
+  /* box-sizing: border-box; */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #126d2a;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -137,31 +108,28 @@ function login() {
   align-items: center;
   min-height: 100vh;
   width: 100vw;
+  max-width: 100%;
   background-color: #354833;
+  background-size: cover;
   scroll-snap-type: y mandatory; /* Enable scroll snapping */
   overflow-y: scroll; /* Enable vertical scrolling */
-  margin: 0; /* Ensure no margin on the container */
-  padding: 0; /* Ensure no padding on the container */
+  scrollbar-width: none;
+  position: relative;
+  left: calc((100vw - 100%) / 2);
 }
 
 .section {
   height: 100vh;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
-  scroll-snap-align: start; /* Snap to the start of each section */
-  margin: 0; /* Ensure no margin on the sections */
-  padding: 0; /* Ensure no padding on the sections */
 }
 
 .home {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 0; /* Ensure no margin on the home section */
-  padding: 0; /* Ensure no padding on the home section */
 }
 
 .nav {
@@ -180,6 +148,8 @@ function login() {
   left: 0;
   width: 100%;
   height: auto;
+  object-fit: cover;
+  filter: saturate(0.5);
 }
 
 .nav-item {
@@ -202,15 +172,22 @@ function login() {
 
 .login {
   margin-left: auto;
-  margin-right: 10px;
-  color: black;
-  padding-right: 3rem;
+  /* margin-right: 10px; */
+  color: white;
+  font-weight: bold;
+  background-color: #126d2a;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 40px;
+  cursor: pointer;
 }
 
 main {
-  flex-grow: 1;
-  width: 100%;
+  /* flex-grow: 1; */
+  /* width: 100%; */
   justify-items: center;
+  /* margin: 0; Ensure no margin on the main */
+  /* padding: 0; Ensure no padding on the main */
 }
 
 .title {
@@ -227,14 +204,14 @@ main {
 
 .subheading {
   font-size: large;
-  width: 60vw;
+  width: 60%;
   margin-top: 2vh;
   text-align: center;
   color: black;
 }
 
 .hook {
-  width: 30vw;
+  width: 30%;
   height: auto;
   margin-top: 5vh;
   text-align: center;
@@ -256,8 +233,6 @@ a.hook {
 }
 
 .features-container {
-  width: 100%;
-  max-width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -280,7 +255,8 @@ a.hook {
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 4rem;
+  font-family: 'Courier New', Courier, monospace;
   margin-bottom: 3rem;
   text-align: center;
   color: white;
@@ -301,209 +277,22 @@ a.hook {
 }
 
 .feature-cards {
+  width: 90%;
   display: flex;
   justify-content: space-around;
-  width: 100%;
   gap: 2rem;
-}
-
-.feature-card {
-  background-color: #354833;
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 300px;
-  position: relative;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 30%;
-}
-
-.feature-cards3 {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  gap: 0.2rem;
-}
-
-.feature-card3 {
-  background-color: #354833;
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 300px;
-  position: relative;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 40%;
-}
-
-.feature-cards2 {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  gap: 0.2rem;
-}
-
-.feature-card2 {
-  background-color: #354833;
-  border-radius: 1rem;
-  padding: 2rem;
-  width: 300px;
-  position: relative;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 40%;
-}
-
-.feature-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.feature-label {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  margin-left: 7.85rem;
-}
-
-.feature-header3 {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.feature-label3 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  margin-left: 15rem;
-}
-
-.feature-header2 {
-  display: flex;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.feature-label2 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  margin-left: 14rem;
-}
-
-/* .feature-bracket {
-  position: relative;
-  width: 100px;
-  height: 50px;
-}
-
-.feature-bracket::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-top: 10px solid white;
-  border-right: 10px solid white;
-  border-radius: 0 10px 0 0;
-  margin-left: 12rem;
-} */
-
-.feature-text {
-  font-size: 0.9rem;
-  text-align: center;
-  align-items: center;
-  color: white;
-}
-
-.feature-text3 {
-  font-size: 0.9rem;
-  text-align: center;
-  align-items: center;
-  color: white;
-}
-
-.feature-text2 {
-  font-size: 0.9rem;
-  text-align: center;
-  align-items: center;
-  color: white;
 }
 
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-}
-
-.modal {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  width: 350px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.modal-title {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #333;
-}
-
-.modal-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.modal-button {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: 0.3s;
-}
-
-.modal-login {
-  background: #007bff;
-  color: white;
-}
-
-.modal-login:hover {
-  background: #0056b3;
-}
-
-.modal-cancel {
-  background: #ccc;
-  color: black;
-}
-
-.modal-cancel:hover {
-  background: #999;
 }
 </style>
