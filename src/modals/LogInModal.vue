@@ -18,7 +18,7 @@ import axios from 'axios'
 const username = ref('')
 const password = ref('')
 const router = useRouter()
-const emit = defineEmits(['closeModal'])
+const emit = defineEmits(['closeModal']) // ✅ Correctly define emits
 
 async function login() {
   try {
@@ -30,22 +30,19 @@ async function login() {
     console.log('Login successful:', response.data)
     localStorage.setItem('token', response.data.token)
 
-    // Emit event to close the modal in the parent
-    emit('closeModal')
+    emit('closeModal') // ✅ Close modal after login
 
-    // Redirect to dashboard
-    router.push('/app/dashboard')
+    router.push('/app/dashboard') // ✅ Redirect after login
   } catch (error) {
     console.error('Login failed:', error.response?.data || error.message)
     alert('Login failed. Please check your credentials.')
   }
 }
 
+// ✅ Close modal when cancel button is clicked
 const closeModal = () => {
   emit('closeModal')
 }
-
-// Define `emit` for closing the modal
 </script>
 
 <style scoped>
