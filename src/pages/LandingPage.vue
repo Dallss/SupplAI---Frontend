@@ -304,4 +304,20 @@ a.hook {
   justify-content: center;
   z-index: 1000;
 }
+
+.our-cause {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.feature-text{
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
 </style>
