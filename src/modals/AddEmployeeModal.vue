@@ -28,7 +28,9 @@ const closeModal = () => {
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal">
-      <h2>Add Employee</h2>
+      <div class="modal-header">
+        <h3>Add Employee</h3>
+      </div>
       <form @submit.prevent="addEmployee">
         <label>
           First Name:
@@ -83,14 +85,25 @@ const closeModal = () => {
 
 .modal {
   background: white;
-  padding: 2rem;
   border-radius: 0.5rem;
   width: 90%;
   max-width: 500px;
+  overflow: hidden;
 }
 
-.modal h2 {
-  margin-top: 0;
+.modal-header {
+  background-color: #354833;
+  color: white;
+  padding: 1rem 2rem;
+  margin: 0;
+}
+
+.modal-header h2 {
+  margin: 0;
+}
+
+.modal form {
+  padding: 2rem;
 }
 
 .modal label {

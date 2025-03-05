@@ -238,9 +238,39 @@ a.hook {
   align-items: center;
 }
 
+.features-container3 {
+  width: 100%;
+  max-width: 200rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.features-container2 {
+  width: 100%;
+  max-width: 200rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .section-title {
   font-size: 4rem;
   font-family: 'Courier New', Courier, monospace;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.section-title3 {
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: white;
+}
+
+.section-title2 {
+  font-size: 2rem;
   margin-bottom: 3rem;
   text-align: center;
   color: white;
