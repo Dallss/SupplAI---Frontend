@@ -128,7 +128,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .dashboard {
   padding: 20px;
   background: #f5f8f6;

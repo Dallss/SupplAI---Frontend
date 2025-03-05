@@ -6,7 +6,7 @@
         <div class="cam-main">
             
             <!-- Camera Option -->
-            <button @click="openCamera">Open Camera</button>
+            <button class="b1" @click="openCamera">Open Camera</button>
             <video v-if="isCameraOpen" ref="camera" autoplay></video>
             <button v-if="isCameraOpen" @click="capturePhoto">Capture</button>
             
@@ -21,7 +21,7 @@
             <h2>Produce: {{ produce }}</h2>
             
             <!-- Predict Button -->
-            <button @click="predictFreshness" :disabled="!imageFile">Check Health</button>
+            <button class="b2" @click="predictFreshness" :disabled="!imageFile">Check Health</button>
     
             <!-- Results -->
             <div v-if="predictions.length">
@@ -31,7 +31,7 @@
                         {{ prediction.food }} - Confidence: {{ prediction.confidence.toFixed(2) }}%
                     </li>
                 </ul>
-                <button @click="showModal = true">Confirm Prediction</button>
+                <button class="b3" @click="showModal = true">Confirm Prediction</button>
             </div>
     
             <!-- Confirmation Modal -->
@@ -161,7 +161,7 @@ methods: {
 };
 </script>
 
-<style>
+<style scoped>
 /* General Styling */
 .camera-page {
     padding: 16px;
@@ -187,7 +187,7 @@ h1 {
     color: #347e2c;
     font-size: 24px;
     font-weight: bold;
-    text-align: center;
+    /* text-align: center; */
 }
 
 h2 {
@@ -217,7 +217,7 @@ input[type="file"] {
 }
 
 /* Buttons */
-button {
+.b1, .b2, .b3 {
     width: 100%;
     max-width: 250px;
     padding: 12px;

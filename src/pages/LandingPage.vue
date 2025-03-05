@@ -10,7 +10,7 @@
       </div>
       <main>
         <div class="title">A Sustainable Future</div>
-        <div class="title"><span class="future">Starts Here</span></div>
+        <div class="title2"><span class="future">Starts Here</span></div>
         <div class="subheading">
           Suppl.ai helps you optimize your food supply, reduce waste, and save costs with smart
           tracking and real-time insights. Make every ingredient count—start managing smarter today!
@@ -146,8 +146,8 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   filter: saturate(0.5);
 }
@@ -185,7 +185,9 @@ a {
 main {
   /* flex-grow: 1; */
   /* width: 100%; */
+  /* display: flex; */
   justify-items: center;
+  align-items: center;
   /* margin: 0; Ensure no margin on the main */
   /* padding: 0; Ensure no padding on the main */
 }
@@ -197,6 +199,13 @@ main {
   color: #0f5519;
   font-weight: 1000;
 }
+
+.title2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 80px;
+  font-weight: 1000;
+}
+
 .future {
   color: black;
   font-weight: 1000;
