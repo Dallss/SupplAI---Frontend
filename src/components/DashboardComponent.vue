@@ -6,9 +6,10 @@
     </div>
 
     <!-- Stat Cards -->
+    <h2 class="title">This Months</h2>
     <div class="stats-container">
       <div class="stat-card">
-        <h3>Produce Near Expiry</h3>
+        <h3>Near Expiry</h3>
         <p class="stat-label">Total</p>
         <p class="stat-total" :style="{ color: getColor(near_exp) }">
           {{ near_exp }}
@@ -17,7 +18,7 @@
       </div>
 
       <div class="stat-card">
-        <h3>Stock Wasted</h3>
+        <h3>Wasted</h3>
         <p class="stat-label">Total</p>
         <p class="stat-total" :style="{ color: getColor(wasted_stock) }">
           {{ wasted_stock }}
@@ -26,7 +27,7 @@
       </div>
 
       <div class="stat-card">
-        <h3>Items Low on Supply</h3>
+        <h3>Low on Supply</h3>
         <p class="stat-label">Total</p>
         <p class="stat-total" :style="{ color: getColor(low_supply) }">
           {{ low_supply }}
@@ -38,10 +39,34 @@
     <!-- AI Recommendation Banner -->
     <div class="long-boxes ai-recommendation">
       <span class="ai-icon">📦</span>
-      <p>SUPPL.AI recommends you purchase the next batch of produce in <strong>10 days</strong>.</p>
+      <p>You are low on: <strong>apple, banna</strong></p>
     </div>
 
-    <div class="long-boxes">Graph</div>
+    <h2 class="title">Item Predictions</h2>
+    <div class="food-container">
+      <div
+        v-for="(item, index) in foodItems"
+        :key="index"
+        class="food-item"
+        @click="openFoodModal(item)"
+      >
+        <img :src="item.image" alt="Food Image" />
+        <span class="food-name">{{ item.name }}</span>
+        <span class="food-name"> Next week demand: 59 </span>
+      </div>
+    </div>
+
+    <!-- Food Details Modal -->
+    <div v-if="isFoodModalOpen" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>{{ selectedFood?.name }} Use Chart</h2>
+          <button @click="closeFoodModal" class="close-button">✖</button>
+        </div>
+        <LineChart v-if="selectedFood?.usageData" :chart-data="chartData" :options="chartOptions" />
+      </div>
+    </div>
+
     <!-- Details Modal -->
     <div v-if="isModalOpen" class="modal-overlay">
       <div class="modal-content">
@@ -74,6 +99,25 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { computed } from 'vue'
+
+// querrreis
+
+// item usage graph
+
+import produceService from '@/api/produceService' // Default import
+const foodItems = ref([{ image: 'https://via.placeholder.com/100?text=Apple', name: 'fetching' }])
+async function fetchAllProduce() {
+  try {
+    const response = await produceService.getAll()
+    foodItems.value = response
+    console.log(response.data) // Process the fetched data
+  } catch (error) {
+    console.error('Error fetching all produce:', error)
+  }
+}
+
+fetchAllProduce()
 
 const near_exp = ref(0)
 const low_supply = ref(0)
@@ -82,6 +126,81 @@ const isModalOpen = ref(false)
 const modalTitle = ref('')
 const modalData = ref([])
 
+const selectedFood = ref(null)
+const isFoodModalOpen = ref(false)
+
+const openFoodModal = (item) => {
+  console.info(item)
+  selectedFood.value = {
+    ...item,
+    usageData: item.usageData || [
+      { time: '2024-01-01', usage: 10 },
+      { time: '2024-02-01', usage: 15 },
+      { time: '2024-03-01', usage: 20 },
+    ], // Provide default data if missing
+    predictions: {
+      '2024-01-01': 10,
+      '2024-02-01': 11,
+      '2024-03-01': 13,
+      '2024-04-01': 17,
+      '2024-05-01': 17,
+      '2024-06-01': 16,
+    },
+  }
+  isFoodModalOpen.value = true
+}
+
+const closeFoodModal = () => {
+  isFoodModalOpen.value = false
+  selectedFood.value = null
+}
+
+// for chart
+import { LineChart } from 'vue-chart-3'
+import { Chart, registerables } from 'chart.js'
+Chart.register(...registerables)
+
+const chartData = computed(() => {
+  // Assuming `selectedFood.predictions?.use` is an object with date as key and use as value
+  const dates = Object.keys(selectedFood.value.predictions || [])
+  const usageData = dates.map((date) => selectedFood.value.predictions[date])
+
+  return {
+    labels: dates,
+    datasets: [
+      {
+        label: 'Item Use Over Time',
+        data: usageData,
+        borderColor: '#4CAF50',
+        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+        fill: true,
+      },
+    ],
+  }
+})
+
+const chartOptions = computed(() => ({
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+    x: { title: { display: true, text: 'Time' } },
+    y: { title: { display: true, text: 'Usage' } },
+  },
+  plugins: {
+    annotation: {
+      annotations: {
+        highlightRange: {
+          type: 'box',
+          xMin: new Date('2024-02-01'), // Start of highlight (date or value)
+          xMax: new Date('2024-03-01'), // End of highlight
+          backgroundColor: 'rgba(255, 99, 132, 0.2)', // Transparent red
+          borderWidth: 0,
+        },
+      },
+    },
+  },
+}))
+// chart-closing
 const getColor = (value) => {
   return value > 10 ? '#b71c1c' : '#2e7d32'
 }
@@ -207,8 +326,9 @@ onMounted(() => {
 }
 
 .ai-recommendation {
-  background: linear-gradient(to right, #5a7f5a, #4a6b4a);
+  background: linear-gradient(to right, #68200b, #a11717ae);
   color: white;
+  font-size: x-large;
 }
 
 .ai-icon {
@@ -277,5 +397,60 @@ td {
   padding: 10px;
   text-align: left;
   background: white;
+}
+
+.food-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px; /* Space between items */
+  justify-content: flex-start; /* Align items from the top-left */
+  padding: 10px;
+}
+
+.food-item {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  background: #fff;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.food-item:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 4px 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.food-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.title {
+  color: rgba(12, 11, 11, 0.676);
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.food-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.food-name {
+  font-size: 12px;
+  color: #050505;
+  margin-top: 5px;
 }
 </style>
